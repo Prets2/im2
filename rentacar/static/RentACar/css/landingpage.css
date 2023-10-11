@@ -11,7 +11,7 @@ body {
 }
 
 .navbar {
-    background: black;
+    background: red;
     font-family: calibri;
     padding: 0; /* Remove padding */
     margin: 0; /* Remove margin */
