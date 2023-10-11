@@ -22,5 +22,9 @@ class CustomLoginView(LoginView):
     redirect_authenticated_user = True  # Redirect authenticated users away from login page
     success_url = reverse_lazy('homepage')  # Specify the URL to redirect to upon successful login
 
-    def get_success_url(self):
+def get_success_url(self):
         return self.success_url
+    
+def register(request):
+    # Implement your registration logic here, or render the registration form
+    return render(request, 'RentACar/register.html')
