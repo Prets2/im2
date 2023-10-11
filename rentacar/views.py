@@ -1,6 +1,8 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.views import LoginView
+from django.urls import reverse_lazy
 
 
 def landing_page(request):
@@ -15,16 +17,10 @@ def cars(request):
 def about(request):
     return render(request, 'RentACar/about.html')
 
-def login_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            # Redirect to a success page or another page
-            return redirect('home')
-        else:
-            # Return an error message or handle the failed login attempt
-            pass
-    return render(request, 'login.html')
+class CustomLoginView(LoginView):
+    template_name = 'RentACar/login.html'  # Your login template
+    redirect_authenticated_user = True  # Redirect authenticated users away from login page
+    success_url = reverse_lazy('homepage')  # Specify the URL to redirect to upon successful login
+
+    def get_success_url(self):
+        return self.success_url
