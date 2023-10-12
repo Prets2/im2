@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import logout
 from django.contrib import messages
+from django.db.models import Q
 
 def landing_page(request):
     return render(request, 'RentACar/landingpage.html')
