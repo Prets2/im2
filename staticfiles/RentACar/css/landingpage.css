@@ -1,0 +1,62 @@
+* {
+    text-decoration: none;
+}
+
+body {
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    background-image: url('../images/landing.jpg'); 
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.navbar {
+    background: black;
+    font-family: calibri;
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+}
+
+.navdiv {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 15px; /* Adjust the padding to make it smaller */
+}
+
+.brand a {
+    font-size: 30px; /* Reduce the font size for the brand */
+    font-weight: 600;
+    color: white;
+}
+
+nav li {
+    list-style: none;
+    display: inline-block;
+}
+
+nav li a {
+    color: white;
+    font-size: 16px; /* Reduce the font size for the links */
+    font-weight: bold;
+    margin-right: 20px; /* Adjust the margin as needed */
+}
+
+nav button {
+    background-color: black;
+    margin-left: 10px;
+    border-radius: 10px;
+    padding: 8px; /* Adjust the padding for buttons */
+    width: 80px; /* Adjust the width for buttons */
+}
+
+nav button a {
+    color: white;
+    font-weight: bold;
+    font-size: 14px; /* Reduce the font size for button text */
+}
+
+.red-text {
+    color: red;
+    font-weight: bold;
+}

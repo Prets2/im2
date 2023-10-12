@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Toyota Vios</title>
+    <style>
+
+        * {
+                text-decoration: none;}
+                body, html {
+                    height: 100%;
+                    margin: 0;
+                    font-family: Arial, sans-serif;
+                }
+        
+                .section {
+                    height: 100vh; /* This makes the first section take up the entire viewport height */
+                    background-attachment: fixed;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                }
+        
+                .section1 {
+                    background-image: url('ertiga2nd.png'); /* Add your image path for the first background */
+                }
+        
+                .section2 {
+                    background-image: url('Group 7.png'); /* Add your image path for the second background */
+                }
+        
+                .content {
+                    padding: 20px;
+                    text-align: center;
+                    color: white;
+                }
+        
+                .section2 .content {
+                    background: rgba(0,0,0,0.5); /* Semi-transparent background for better readability */
+                }
+        
+                .navbar {
+                background: black;
+                font-family: calibri;
+                padding: 0; /* Remove padding */
+                margin: 0; /* Remove margin */
+            }
+        
+            .navdiv {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 5px 15px; /* Adjust the padding to make it smaller */
+            }
+        
+            .brand a {
+                font-size: 30px; /* Reduce the font size for the brand */
+                font-weight: 600;
+                color: white;
+            }
+            
+            nav li {
+                list-style: none;
+                display: inline-block;
+            }
+            
+            nav li a {
+                color: white;
+                font-size: 16px; /* Reduce the font size for the links */
+                font-weight: bold;
+                margin-right: 20px; /* Adjust the margin as needed */
+            }
+            
+            nav button {
+                background-color: black;
+                margin-left: 10px;
+                border-radius: 10px;
+                padding: 8px; /* Adjust the padding for buttons */
+                width: 80px; /* Adjust the width for buttons */
+            }
+            
+            nav button a {
+                color: white;
+                font-weight: bold;
+                font-size: 14px; /* Reduce the font size for button text */
+            }
+            
+            .red-text {
+                color: red;
+                font-weight: bold;
+            }
+            </style>
+</head>
+<body>
+
+    <div class="section section1">
+        <div class="content">
+        </div>
+    </div>
+
+    <div class="section section2">
+        <div class="content">
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="navdiv">
+            <div class="brand"><a href="{% url 'landing_page' %}"><h1><span class="white-text">RENTA</span><span class="red-text">CAR</span></h1></a></div>
+            <ul>
+                <button id="rent-button">Rent</button>
+                <button><a href="{% url 'logout' %}">Logout</a></button>
+                
+            </ul>
+        </div>
+    </nav>
+
+</body>
+</html>

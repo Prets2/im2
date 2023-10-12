@@ -1,0 +1,114 @@
+/* Style for the car listing section */
+.section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin: 20px;
+}
+
+.box {
+    position: relative;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px;
+}
+
+.box1 {
+    background-image: url('../images/viosnew.png'); /* Replace with your image path */
+}
+
+.box2 {
+    background-image: url('../images/ertiganew.png'); /* Replace with your image path */
+}
+
+.view-button {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: red;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.view-button:hover {
+    background-color: #360101;
+}
+
+.view-button:active {
+    background-color: #000000;
+}
+
+.header-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+/* Header styles */
+* {
+    text-decoration: none;
+}
+
+body {
+    
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background: black;
+    font-family: calibri;
+    padding: 0;
+    margin: 0;
+}
+
+.navdiv {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+}
+
+.brand a {
+    font-size: 35px;
+    font-weight: 600;
+    color: white;
+}
+
+nav li {
+    list-style: none;
+    display: inline-block;
+}
+
+nav li a {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 25px;
+}
+
+nav button {
+    background-color: black;
+    margin-left: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    width: 90px;
+}
+
+nav button a {
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+}

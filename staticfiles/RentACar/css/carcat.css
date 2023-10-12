@@ -1,0 +1,74 @@
+*
+{
+    text-decoration: none;
+}
+body {
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+.navbar {
+    background: black;
+    font-family: calibri;
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+}
+.navdiv {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px; /* Add padding to the sides */
+}
+.brand a {
+    font-size: 35px;
+    font-weight: 600;
+    color: white;
+}
+nav li {
+    list-style: none;
+    display: inline-block;
+}
+nav li a {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 25px;
+}
+nav button {
+    background-color: red;
+    margin-left: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    width: 90px;
+}
+nav button a {
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+}
+.rent {
+    text-align: center;
+}
+.rent-container {
+    display: block;
+    position: relative;
+    font-size: 0; /* Remove the space between inline elements */
+}
+.rent img {
+    width: 100%; /* Set the image width to 100% of the container */
+    display: block; /* Make sure the images are block-level elements */
+    margin: 0;
+}
+.view-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: red;
+    border-radius: 7px;
+    padding: 10px;
+}
+.view-button a {
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+}

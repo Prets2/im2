@@ -15,7 +15,6 @@
             <ul>
                 <li><a href="{% url 'cars' %}">Cars</a></li>
                 <li><a href="{% url 'about' %}">About</a></li>
-                <button><a href="#">Logout</a></button>
             </ul>
         </div>
     </nav>
@@ -28,16 +27,18 @@
 <div class="login-form">
     <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
-        <label for="username">Email:</label>
+        <!-- Other form fields -->
+        <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
         <button type="submit">Login</button>
     </form>
+
     <!-- Add a link to the registration page with an appropriate phrase -->
-        <div class="register-link">
-            <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
-        </div>
+    <div class="register-link">
+        <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+    </div>
 </div>
 
 </body>
