@@ -36,7 +36,7 @@ def register(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-        user = User.objects.create_user(username=username, password=password, first_name=first_name, last_name=last_name, email=email)
+        user = User.objects.create_user(username=username, email=email, password=password, first_name=first_name, last_name=last_name)
         user.save()
         return redirect('login')
     return render(request, 'RentACar/register.html')
