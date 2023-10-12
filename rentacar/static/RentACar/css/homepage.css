@@ -92,11 +92,6 @@ nav button a {
     font-weight: bold;
 }
 
-.red-text {
-    color: red;
-    font-weight: bold;
-}
-
 .centered-text h1 {
     color: white;
     font-family: 'San Francisco', Arial, sans-serif;
@@ -114,6 +109,7 @@ nav button a {
 header h1 {
     font-size: 30px; /* Adjust the font size as needed */
 }
+
 
 
 
