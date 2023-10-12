@@ -25,25 +25,11 @@ def terms_and_conditions(request):
 
 
 def cars(request):
-<<<<<<< HEAD
     return render(request, "RentACar/cars.html")
 
-=======
-    return render(request, 'RentACar/carcat.html')
->>>>>>> 15f1a00af17294d140d151f80ef7c71ed63e6b97
 
 def about(request):
     return render(request, "RentACar/about.html")
-
-def send_confirmation_email(request):
-    subject = 'Confirmation Email'
-    message = 'Thank you for renting with us. Please find your receipt attached.'
-    from_email = 'your-email@example.com'  # Sender's email
-    recipient_list = [request.user.email]  # Recipient's email
-
-    send_mail(subject, message, from_email, recipient_list, fail_silently=False)
-
-
 
 # Add the carlists view here
 def carlists(request):
@@ -100,10 +86,4 @@ def home(request):
 
 def logout_view(request):
     logout(request)
-<<<<<<< HEAD
     return redirect("login")
-=======
-    return redirect('login')
-
-
->>>>>>> 15f1a00af17294d140d151f80ef7c71ed63e6b97
