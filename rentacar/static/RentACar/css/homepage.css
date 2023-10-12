@@ -110,7 +110,8 @@ header h1 {
     font-size: 30px; /* Adjust the font size as needed */
 }
 
-
-
-
+.red-text {
+    color: red;
+    font-weight: bold;
+}
 
