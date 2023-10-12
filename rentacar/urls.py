@@ -11,4 +11,5 @@ urlpatterns = [
     path('login/', LoginView.as_view(template_name='RentACar/login.html'), name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('register/', views.register, name='register'),
+    path('terms_and_conditions/', views.terms_and_conditions, name='terms_and_conditions'),
 ]
