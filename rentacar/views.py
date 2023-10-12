@@ -25,8 +25,12 @@ def terms_and_conditions(request):
 
 
 def cars(request):
+<<<<<<< HEAD
     return render(request, "RentACar/cars.html")
 
+=======
+    return render(request, 'RentACar/carcat.html')
+>>>>>>> 15f1a00af17294d140d151f80ef7c71ed63e6b97
 
 def about(request):
     return render(request, "RentACar/about.html")
@@ -96,4 +100,10 @@ def home(request):
 
 def logout_view(request):
     logout(request)
+<<<<<<< HEAD
     return redirect("login")
+=======
+    return redirect('login')
+
+
+>>>>>>> 15f1a00af17294d140d151f80ef7c71ed63e6b97

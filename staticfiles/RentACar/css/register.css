@@ -1,0 +1,119 @@
+/* Reset default text-decoration for all elements */
+* {
+    text-decoration: none;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #1C1C1C; /* Set the background color to Website Background - #1C1C1C Nero */
+}
+
+.navbar {
+    background: black;
+    font-family: calibri;
+    padding: 0;
+    margin: 0;
+}
+
+.navdiv {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 15px;
+}
+
+.brand a {
+    font-size: 30px;
+    font-weight: 600;
+    color: white;
+}
+
+nav ul {
+    list-style: none;
+    display: flex; /* Change to a flex container to control the alignment */
+    align-items: center;
+}
+
+nav li {
+    margin-right: 20px;
+}
+
+nav li a {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+nav button {
+    background-color: black;
+    border-radius: 10px;
+    padding: 8px;
+    width: 80px;
+}
+
+nav button a {
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.centered-text {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Modify styles for the login form */
+.login-form {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 300px;
+    margin: 0 auto;
+    color: black; /* Change the font color to black */
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.login-form input {
+    width: 100%; /* Set the width to 100% for responsiveness */
+    padding: 10px;
+    margin-bottom: 10px; /* Reduce the margin to avoid overlap */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-form input[type="email"] {
+    width: 90%; /* Make the email input the same width as the other text fields */
+}
+
+/* Adjust the width of the text fields */
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 90%; /* Make text fields slightly shorter (adjust as needed) */
+}
+
+.login-form button {
+    width: 100%;
+    padding: 10px;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Set the font color for the "Login" text to white */
+.centered-text h1 {
+    color: white;
+}
+
+.red-text {
+    color: red;
+    font-weight: bold;
+}

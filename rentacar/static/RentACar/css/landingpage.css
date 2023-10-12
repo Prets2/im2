@@ -13,7 +13,8 @@ body {
 .navbar {
     background: black;
     font-family: calibri;
-    padding: 0; /* Remove padding */
+    padding-top: 0px; /* Adjust the top padding to 2px */
+    padding-bottom: 0px; /* Adjust the bottom padding to 2px */
     margin: 0; /* Remove margin */
 }
 
@@ -21,11 +22,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 5px 15px; /* Adjust the padding to make it smaller */
+    padding: 0 15px; /* Keep horizontal padding as it is */
 }
 
 .brand a {
-    font-size: 30px; /* Reduce the font size for the brand */
+    font-size: 35px; /* Reduce the font size for the brand */
     font-weight: 600;
     color: white;
 }
@@ -37,23 +38,23 @@ nav li {
 
 nav li a {
     color: white;
-    font-size: 16px; /* Reduce the font size for the links */
+    font-size: 18px; /* Reduce the font size for the links */
     font-weight: bold;
-    margin-right: 20px; /* Adjust the margin as needed */
+    margin-right: 25px; /* Adjust the margin as needed */
 }
 
 nav button {
     background-color: black;
     margin-left: 10px;
     border-radius: 10px;
-    padding: 8px; /* Adjust the padding for buttons */
-    width: 80px; /* Adjust the width for buttons */
+    padding: 10px; /* Adjust the padding for buttons */
+    width: 90px; /* Adjust the width for buttons */
 }
 
 nav button a {
     color: white;
     font-weight: bold;
-    font-size: 14px; /* Reduce the font size for button text */
+    font-size: 15px; /* Reduce the font size for button text */
 }
 
 .red-text {

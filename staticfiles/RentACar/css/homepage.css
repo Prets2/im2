@@ -1,0 +1,117 @@
+* {
+    text-decoration: none;
+}
+
+body {
+    background-image: url('../images/background.png'); 
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0; /* Remove default margin */
+	padding: 0; /* Remove default padding */
+}
+
+.navbar {
+    background: black;
+	font-family: calibri;
+	padding: 0; /* Remove padding */
+	margin: 0; /* Remove margin */
+}
+
+.navdiv {
+    display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 15px; /* Add padding to the sides */
+}
+
+.brand a {
+    font-size: 35px;
+    font-weight: 600;
+    color: white;    
+}
+
+nav li {
+    list-style: none;
+    display: inline-block;
+}
+
+nav li a {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 25px;
+}
+
+nav button {
+    background-color: black;
+    margin-left: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    width: 90px;
+}
+
+nav button a {
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.book {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 200px; /* Adjust this value to move the button upward */
+}
+.book button {
+    background-color: black;
+    margin-left: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    height: 70px;
+    width: 200px;
+    text-align: center;
+}
+
+.book button a {
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.centered-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-top: 0;  /* Adjust to move the text upward */
+}
+
+.bold-text {
+    font-family: 'San Francisco', Arial, sans-serif;
+    font-weight: bold;
+}
+
+.centered-text h1 {
+    color: white;
+    font-family: 'San Francisco', Arial, sans-serif;
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+
+.centered-text h2{
+    color: white;
+    font-family: 'San Francisco', Arial, sans-serif;
+    margin: 0;
+    font-size: 20px;
+}
+
+header h1 {
+    font-size: 30px; /* Adjust the font size as needed */
+}
+
+.red-text {
+    color: red;
+    font-weight: bold;
+}
+

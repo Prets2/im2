@@ -11,15 +11,19 @@
 <header>
     <nav class="navbar">
         <div class="navdiv">
-            <div class="brand"><a href="{% url 'home' %}"><h1><span class="white-text">RENTA</span><span class="red-text">CAR</span></h1></a></div>
+            <div class="brand"><a href="{% url 'homepage' %}"><h1><span class="white-text">RENTA</span><span class="red-text">CAR</span></h1></a></div>
             <ul>
                 <li><a href="{% url 'cars' %}">Cars</a></li>
                 <li><a href="{% url 'about' %}">About</a></li>
+<<<<<<< HEAD
                 {% if user.is_authenticated %}
                 <button><a href="{% url 'logout' %}">Logout</a></button>
                 {% else %}
                 <button><a href="{% url 'login' %}">Login</a></button>
                 {% endif %}
+=======
+                <button><a href="#">Logout</a></button>
+>>>>>>> 15f1a00af17294d140d151f80ef7c71ed63e6b97
             </ul>
         </div>
     </nav> 

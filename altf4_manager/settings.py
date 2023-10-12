@@ -122,6 +122,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "rentacar", "static")]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 LOGIN_REDIRECT_URL = 'home'  # Correct URL name for the homepage view
 
 # Default primary key field type
