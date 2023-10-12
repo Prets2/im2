@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import logout
+from django.contrib import messages
 
 def landing_page(request):
     return render(request, 'RentACar/landingpage.html')
@@ -35,6 +36,11 @@ def register(request):
         username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
+
+        # Check if a user with the same username or email already exists
+        if User.objects.filter(Q(username=username) | Q(email=email)).exists():
+            messages.error(request, 'Username or email already exists.')
+            return render(request, 'RentACar/register.html')
 
         user = User.objects.create_user(username=username, email=email, password=password, first_name=first_name, last_name=last_name)
         user.save()
