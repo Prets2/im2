@@ -14,7 +14,7 @@ def landing_page(request):
 
 
 def cars(request):
-    return render(request, 'RentACar/cars.html')
+    return render(request, 'RentACar/carcat.html')
 
 def about(request):
     return render(request, 'RentACar/about.html')
@@ -57,3 +57,5 @@ def home(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+
