@@ -15,7 +15,7 @@
             <ul>
                 <li><a href="{% url 'cars' %}">Cars</a></li>
                 <li><a href="{% url 'about' %}">About</a></li>
-                <button><a href="#">Logout</a></button>
+                <button><a href="{% url 'login' %}">Cancel</a></button>
             </ul>
         </div>
     </nav>
@@ -39,6 +39,13 @@
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
         <button type="submit">Register</button>
+        {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+        </ul>
+        {% endif %}
     </form>
     
     

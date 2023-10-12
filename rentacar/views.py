@@ -28,6 +28,9 @@ class CustomLoginView(LoginView):
     def get_success_url(self):
         return self.success_url
 
+    def form_invalid(self, form):
+        messages.error(self.request, 'Invalid username or password. Please try again.')
+        return super().form_invalid(form)
 
 
 def register(request):
