@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Vios</title>
+    <title>RENTACAR : Suzuki Ertiga</title>
     <style>
         * {
             text-decoration: none;
@@ -159,13 +159,9 @@
 
     <nav class="navbar">
         <div class="navdiv">
-<<<<<<< HEAD
             <div class="brand"><a href="{% url 'landing_page' %}">
                     <h1><span class="white-text">RENTA</span><span class="red-text">CAR</span></h1>
                 </a></div>
-=======
-            <div class="brand"><a href="{% url 'home' %}"><h1><span class="white-text">RENTA</span><span class="red-text">CAR</span></h1></a></div>
->>>>>>> 2910258b941326adf7bc63e8e182bc6c31f7c761
             <ul>
                 {% if user.is_authenticated %}
                 <button id="rent-button">Rent </button>
@@ -177,9 +173,9 @@
                 {% else %}
                 <button><a href="{% url 'login' %}">Login</a></button>
                 {% endif %}
-            </ul>
-        </div>
-    </nav>
+             </ul>
+                 </div>
+                </nav>
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close" id="close-modal">&times;</span>
