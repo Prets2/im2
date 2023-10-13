@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>RENTACAR : Toyota Vios</title>
+    <title>RENTACAR : Suzuki Ertiga</title>
     <link rel="icon" href="{% static 'RentACar/images/favicon.jpg' %}" type="image/jpg">
     <style>
         * {
@@ -29,12 +29,12 @@
         }
 
         .section1 {
-            background-image: url('/static/RentACar/images/viosfinal2.png');
+            background-image: url('/static/RentACar/images/ertiga2nd.png');
             /* Add your image path for the first background */
         }
 
         .section2 {
-            background-image: url('/static/RentACar/images/Group 6.png');
+            background-image: url('/static/RentACar/images/Group 7.png');
             /* Add your image path for the second background */
         }
 
@@ -174,9 +174,9 @@
                 {% else %}
                 <button><a href="{% url 'login' %}">Login</a></button>
                 {% endif %}
-            </ul>
-        </div>
-    </nav>
+             </ul>
+                 </div>
+                </nav>
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close" id="close-modal">&times;</span>
@@ -221,11 +221,6 @@
         }
     </script>
     <script>
-        var sendEmailURL = "{% url 'send_email' %}";
-        var csrf_token = "{{ csrf_token }}"; // Define the CSRF token in your JavaScript
-    </script>
-
-    <script>
         // Get the checkbox and continue button elements
         var agreeCheckbox = document.getElementById("agree-checkbox");
         var continueButton = document.getElementById("continue-button");
@@ -246,32 +241,14 @@
             document.getElementById("myModal").style.display = "none";
         });
 
-        // When the "Continue" button is clicked, send a POST request to send the email
-        // When the "Continue" button is clicked, send a POST request to send the email
+        // Add an event listener for the "Continue" button
         continueButton.addEventListener("click", function () {
             // Close the first pop-up
             document.getElementById("myModal").style.display = "none";
 
             // Show the second pop-up
             document.getElementById("congratulationsModal").style.display = "block";
-
-            // Send a POST request to send the email using the generated URL
-            fetch(sendEmailURL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrf_token // Set the CSRF token as a header
-                },
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data.message);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
         });
-
 
         // Add an event listener to close the second pop-up
         var closeSecondModalButton = document.getElementById("close-congratulations");

@@ -42,10 +42,16 @@ def send_email(request):
 def landing_page(request):
     return render(request, "RentACar/landingpage.html")
 
+def home(request):
+    return render(request, "RentACar/homepage.html")
 
 def viosfinal(request):
     # Add your logic for the 'viosfinal' view here
     return render(request, "RentACar/viosfinal.html")
+
+def ertigafinal(request):
+    # Add your logic for the 'viosfinal' view here
+    return render(request, "RentACar/ertigafinal.html")
 
 
 def terms_and_conditions(request):
@@ -108,8 +114,7 @@ def register(request):
     return render(request, "RentACar/register.html")
 
 
-def home(request):
-    return render(request, "RentACar/homepage.html")
+
 
 
 def logout_view(request):
