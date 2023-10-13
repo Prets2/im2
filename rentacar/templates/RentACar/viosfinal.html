@@ -193,6 +193,7 @@
         <div class="modal-content">
             <span class="close" id="close-congratulations">&times;</span>
             <p>Congratulations! Please check your email for your receipt.</p>
+            <button id="ok-congratulations-button">OK</button>
         </div>
     </div>
 
@@ -276,6 +277,11 @@
         // Add an event listener to close the second pop-up
         var closeSecondModalButton = document.getElementById("close-congratulations");
         closeSecondModalButton.addEventListener("click", function () {
+            document.getElementById("congratulationsModal").style.display = "none";
+        });
+
+        var okCongratulationsButton = document.getElementById("ok-congratulations-button");
+        okCongratulationsButton.addEventListener("click", function () {
             document.getElementById("congratulationsModal").style.display = "none";
         });
     </script>
