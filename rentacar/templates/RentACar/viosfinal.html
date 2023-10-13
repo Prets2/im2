@@ -189,19 +189,25 @@
             </div>
         </div>
     </div>
-    <div id="congratulationsModal" class="modal">
+
+    <div id="receiptModal" class="modal">
         <div class="modal-content">
-            <span class="close" id="close-congratulations">&times;</span>
-            <p>Congratulations! Please check your email for your receipt.</p>
+            <span class="close" id="close-receipt">&times;</span>
+            <p><b>Congratulations, please take a screenshot of this Receipt</b></p>
+            <div class="receipt-content" id="receipt-content"></div>
+            <button id="close-receipt-button" class="modal-button">Close</button>
         </div>
     </div>
-
 
     <script>
         // Get the modal and button elements
         var modal = document.getElementById("myModal");
         var rentButton = document.getElementById("rent-button");
         var closeBtn = document.getElementsByClassName("close")[0];
+        var receiptModal = document.getElementById("receiptModal");
+        var closeReceiptBtn = document.getElementById("close-receipt");
+        var receiptContent = document.getElementById("receipt-content");
+        var closeReceiptButton = document.getElementById("close-receipt-button");
 
         // When the "Rent" button is clicked, display the modal
         rentButton.onclick = function () {
@@ -219,43 +225,88 @@
                 modal.style.display = "none";
             }
         }
+
+        // When the close button in the receipt modal is clicked, hide the receipt modal
+        closeReceiptButton.onclick = function () {
+            receiptModal.style.display = "none";
+        }
     </script>
-    <script>
-        // Get the checkbox and continue button elements
-        var agreeCheckbox = document.getElementById("agree-checkbox");
-        var continueButton = document.getElementById("continue-button");
-        // Add this code to your existing JavaScript
 
-        var continueButton = document.getElementById("continue-button");
+<script>
+    function fetchUsername() {
+        return fetch('/api/get-username', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                return data.username; // Replace 'data.username' with the actual property that contains the username
+            })
+            .catch(error => {
+                console.error('Error fetching username:', error);
+            });
+    }
+
+    function generateReceiptWithUsername(username, carName) {
+            // Generate a random 5-digit order number
+            var orderNumber = getRandomOrderNumber();
+
+            // Build the receipt content
+            var receiptHTML = `
+                <p>Recipient: ${username}</p>
+                <p>Car Name: Vios</p>
+                <p>Order Number: ${orderNumber}</p>
+            `;
+
+            // Display the receipt content
+            receiptContent.innerHTML = receiptHTML;
+
+            // Display the receipt modal
+            receiptModal.style.display = "block";
+        }
+
+        function getRandomOrderNumber() {
+            return Math.floor(10000 + Math.random() * 90000);
+        }
 
 
+    // Get the checkbox and continue button elements
+    var agreeCheckbox = document.getElementById("agree-checkbox");
+    var continueButton = document.getElementById("continue-button");
 
-        // Add an event listener to the checkbox
-        agreeCheckbox.addEventListener("change", function () {
-            continueButton.disabled = !agreeCheckbox.checked;
-        });
+    // Add an event listener to the checkbox
+    agreeCheckbox.addEventListener("change", function () {
+        continueButton.disabled = !agreeCheckbox.checked;
+    });
 
-        // Add an event listener to close the first pop-up
-        var closeFirstModalButton = document.getElementById("close-modal");
-        closeFirstModalButton.addEventListener("click", function () {
-            document.getElementById("myModal").style.display = "none";
-        });
+    // Add an event listener to close the first pop-up
+    var closeFirstModalButton = document.getElementById("close-modal");
+    closeFirstModalButton.addEventListener("click", function () {
+        document.getElementById("myModal").style.display = "none";
+    });
 
-        // Add an event listener for the "Continue" button
-        continueButton.addEventListener("click", function () {
-            // Close the first pop-up
-            document.getElementById("myModal").style.display = "none";
+    // When the "Continue" button is clicked, send a POST request to send the email
+    continueButton.addEventListener("click", function () {
+        document.getElementById("myModal").style.display = "none";
+        fetchUsername()
+            .then(username => {
+                generateReceiptWithUsername(username, "Vios");
+            });
+    });
 
-            // Show the second pop-up
-            document.getElementById("congratulationsModal").style.display = "block";
-        });
+    // Add an event listener to close the second pop-up
+    var closeSecondModalButton = document.getElementById("close-congratulations");
+    closeSecondModalButton.addEventListener("click", function () {
+        document.getElementById("congratulationsModal").style.display = "none";
+    });
 
-        // Add an event listener to close the second pop-up
-        var closeSecondModalButton = document.getElementById("close-congratulations");
-        closeSecondModalButton.addEventListener("click", function () {
-            document.getElementById("congratulationsModal").style.display = "none";
-        });
-    </script>
+    var okCongratulationsButton = document.getElementById("ok-congratulations-button");
+    okCongratulationsButton.addEventListener("click", function () {
+        document.getElementById("congratulationsModal").style.display = "none";
+    });
+</script>
 
 
 

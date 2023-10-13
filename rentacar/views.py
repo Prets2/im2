@@ -1,3 +1,4 @@
+from urllib import response
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
@@ -10,7 +11,17 @@ from django.contrib import messages
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
+from django.shortcuts import render
+from django.shortcuts import render
+from django.http import JsonResponse
 
+def get_username(request):
+    if request.user.is_authenticated:
+        username = request.user.username
+        return JsonResponse({'username': username})
+    else:
+        return JsonResponse({'error': 'User not authenticated'})
+    
 def landing_page(request):
     return render(request, "RentACar/landingpage.html")
 
@@ -56,10 +67,10 @@ class CustomLoginView(LoginView):
 
     def get_success_url(self):
         return self.success_url
-
     def form_invalid(self, form):
         messages.error(self.request, "Invalid username or password. Please try again.")
         return super().form_invalid(form)
+    
 
 
 def register(request):

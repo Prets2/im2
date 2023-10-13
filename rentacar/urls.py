@@ -13,4 +13,5 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('register/', views.register, name='register'),
     path('terms_and_conditions/', views.terms_and_conditions, name='terms_and_conditions'),
+    path('api/get-username/', views.get_username, name='get-username')
 ]
