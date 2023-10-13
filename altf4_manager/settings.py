@@ -52,11 +52,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.Emailbackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMEIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "danielgilbertd@gmail.com"
-EMAIL_HOST_PASSWORD = 'vxljkjzbneyijpam'
+EMAIL_HOST_USER = 'rentac433@gmail.com'
+EMAIL_HOST_PASSWORD = 'cdbzlkoohmxkcjpc'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 

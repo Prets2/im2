@@ -220,6 +220,11 @@
         }
     </script>
     <script>
+        var sendEmailURL = "{% url 'send_email' %}";
+        var csrf_token = "{{ csrf_token }}"; // Define the CSRF token in your JavaScript
+    </script>
+
+    <script>
         // Get the checkbox and continue button elements
         var agreeCheckbox = document.getElementById("agree-checkbox");
         var continueButton = document.getElementById("continue-button");
@@ -240,14 +245,32 @@
             document.getElementById("myModal").style.display = "none";
         });
 
-        // Add an event listener for the "Continue" button
+        // When the "Continue" button is clicked, send a POST request to send the email
+        // When the "Continue" button is clicked, send a POST request to send the email
         continueButton.addEventListener("click", function () {
             // Close the first pop-up
             document.getElementById("myModal").style.display = "none";
 
             // Show the second pop-up
             document.getElementById("congratulationsModal").style.display = "block";
+
+            // Send a POST request to send the email using the generated URL
+            fetch(sendEmailURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrf_token // Set the CSRF token as a header
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.message);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         });
+
 
         // Add an event listener to close the second pop-up
         var closeSecondModalButton = document.getElementById("close-congratulations");

@@ -1,3 +1,4 @@
+from urllib import response
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
@@ -10,7 +11,34 @@ from django.contrib import messages
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
+from django.shortcuts import render
+from django.shortcuts import render
+from django.http import JsonResponse
 
+
+def send_email(request):
+    if request.method == "POST":
+        # Assuming you have a user object with an email field
+        user_email = request.user.email  # Change this based on your user model
+
+        subject = 'Subject of the email'
+        message = 'Message of the email'
+        from_email = 'your-email@example.com'
+        recipient_list = [user_email]
+
+        # Send the email
+        send_mail(
+            subject,
+            message,
+            from_email,
+            recipient_list,
+            fail_silently=False,
+        )
+
+        return JsonResponse({'message': 'Email sent successfully.'})
+    else:
+        return JsonResponse({'error': 'Invalid request method.'}, status=400)
+    
 def landing_page(request):
     return render(request, "RentACar/landingpage.html")
 
@@ -50,10 +78,10 @@ class CustomLoginView(LoginView):
 
     def get_success_url(self):
         return self.success_url
-
     def form_invalid(self, form):
         messages.error(self.request, "Invalid username or password. Please try again.")
         return super().form_invalid(form)
+    
 
 
 def register(request):
