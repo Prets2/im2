@@ -15,29 +15,12 @@ from django.shortcuts import render
 from django.shortcuts import render
 from django.http import JsonResponse
 
-
-def send_email(request):
-    if request.method == "POST":
-        # Assuming you have a user object with an email field
-        user_email = request.user.email  # Change this based on your user model
-
-        subject = 'Subject of the email'
-        message = 'Message of the email'
-        from_email = 'your-email@example.com'
-        recipient_list = [user_email]
-
-        # Send the email
-        send_mail(
-            subject,
-            message,
-            from_email,
-            recipient_list,
-            fail_silently=False,
-        )
-
-        return JsonResponse({'message': 'Email sent successfully.'})
+def get_username(request):
+    if request.user.is_authenticated:
+        username = request.user.username
+        return JsonResponse({'username': username})
     else:
-        return JsonResponse({'error': 'Invalid request method.'}, status=400)
+        return JsonResponse({'error': 'User not authenticated'})
     
 def landing_page(request):
     return render(request, "RentACar/landingpage.html")
