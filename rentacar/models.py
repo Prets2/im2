@@ -1,5 +1,3 @@
-from django.contrib.auth.models import BaseUserManager, AbstractUser
-
 from django.db import models
 
 class Car(models.Model):
@@ -9,6 +7,7 @@ class Car(models.Model):
     carDescription = models.TextField()
     carRate = models.DecimalField(max_digits=10, decimal_places=2)
     carPic = models.ImageField(upload_to='car_pics/', blank=True, null=True)
+    status = models.IntegerField(default=0)
 
     def __str__(self):
         return self.carName

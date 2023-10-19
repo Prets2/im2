@@ -136,7 +136,6 @@
     <nav class="navbar">
         <div class="navdiv">
             <div class="brand"><a href="{% url 'home' %}"><h1><span class="white-text">RENTA</span><span class="red-text">CAR</span></h1></a></div>
-            
             <ul>
                 {% if user.is_authenticated %}
                 <button><a href="{% url 'logout' %}">Logout</a></button>
@@ -146,5 +145,19 @@
             </ul>
         </div>
     </nav>
+    <div class="section">
+        {% for car in cars %}
+        <a href="{% url 'car_detail' car.CarID %}" class="card-link">
+            <div class="box box{{ forloop.counter }}">
+                <div class="header-overlay"></div>
+                <div class="car-card">
+                    <img src="{{ car.carPic.url }}" class="car-image">
+                    <h2>{{ car.carName }}</h2>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    
 </body>
 </html>

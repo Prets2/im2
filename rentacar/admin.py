@@ -1,8 +1,9 @@
 from django.contrib import admin
+from django.utils.html import format_html  # Add this import
 from .models import Car
 
 class CarAdmin(admin.ModelAdmin):
-    list_display = ['CarID', 'carName', 'carType', 'carDescription', 'carRate', 'display_car_pic']
+    list_display = ['CarID', 'carName', 'carType', 'carDescription', 'carRate', 'display_car_pic','status']
 
     def display_car_pic(self, obj):
         if obj.carPic:

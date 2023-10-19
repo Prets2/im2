@@ -14,6 +14,8 @@ from django.core.mail import send_mail
 from django.shortcuts import render
 from django.shortcuts import render
 from django.http import JsonResponse
+from .models import Car
+from django.shortcuts import render, get_object_or_404
 
 def get_username(request):
     if request.user.is_authenticated:
@@ -42,16 +44,12 @@ def terms_and_conditions(request):
 
 
 def cars(request):
-    return render(request, "RentACar/cars.html")
+    car = Car.objects.all()
+    return render(request, "RentACar/car_list.html", {'cars': car} )
 
 
 def about(request):
     return render(request, "RentACar/about.html")
-
-# Add the carlists view here
-def carlists(request):
-    # Your carlists view logic goes here
-    return render(request, "RentACar/carlists.html")
 
 
 @login_required
@@ -71,6 +69,9 @@ class CustomLoginView(LoginView):
         messages.error(self.request, "Invalid username or password. Please try again.")
         return super().form_invalid(form)
     
+def car_detail(request, car_id):
+    car = get_object_or_404(Car, CarID=car_id)
+    return render(request, "RentACar/car_detail.html", {'car': car})    
 
 
 def register(request):
@@ -95,10 +96,6 @@ def register(request):
         user.save()
         return redirect("login")
     return render(request, "RentACar/register.html")
-
-
-
-
 
 def logout_view(request):
     logout(request)
