@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CARS</title>
     <link rel="icon" href="{% static 'RentACar/images/favicon.jpg' %}" type="image/jpg">
+    <link rel="stylesheet" type="text/css" href="{% static 'RentACar/css/car_list.css' %}">
     <style>
         * {
             text-decoration: none;
@@ -86,14 +87,6 @@
                 border-radius: 20px;
             }
     
-            .box1 {
-                background-image: url('/static/RentACar/images/viosnew.png'); /* Replace with your image path */
-            }
-    
-            .box2 {
-                background-image: url('/static/RentACar/images/ertiganew.png'); /* Replace with your image path */
-            }
-    
             .button-container {
                 display: flex;
                 justify-content: center;
@@ -147,15 +140,17 @@
     </nav>
     <div class="section">
         {% for car in cars %}
-            <div class="box box{{ forloop.counter }}">
-                <div class="header-overlay"></div>
-                <div class="car-card">
+        <div class="box box{{ forloop.counter }}">
+            <div class="header-overlay"></div>
+            <div class="car-card"> 
+                <div class="car-image-container">
                     <img src="{{ car.carPic.url }}" class="car-image">
                     <div class="button-container">
                         <button class="rent-button" data-carid="{{ car.CarID }}">View</button>
                     </div>
                 </div>
             </div>
+        </div>
         {% endfor %}
     </div>
 </body>

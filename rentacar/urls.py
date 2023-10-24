@@ -1,8 +1,7 @@
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
 from . import views
-from django.conf import settings
-from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('', views.landing_page, name='landing_page'),
@@ -17,5 +16,3 @@ urlpatterns = [
     path('cars/<int:car_id>/', views.car_detail, name='car_detail')
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
