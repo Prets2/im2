@@ -126,7 +126,11 @@
     <div class="car-details">
         <h2>{{ car.carName }}</h2>
         <p>{{ car.carDescription }}</p>
-        <!-- Add more car details here as needed -->
+        <p>Car Type: {{ car.carType }}</p>
+        <p>Car Rate: ${{ car.carRate }}</p>
+        {% if car.carPic %}
+            <img src="{{ car.carPic.url }}" alt="{{ car.carName }}" width="300" height="200">
+        {% endif %}
     </div>
 </body>
 </html>

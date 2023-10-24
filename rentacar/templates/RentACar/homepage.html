@@ -21,11 +21,17 @@
             <ul>
                 <li><a href="{% url 'cars' %}">Cars</a></li>
                 <li><a href="{% url 'about' %}">About</a></li>
+                {% if user_is_admin %}
+                <li><a href="/edit-cars">Edit cars</a></li>
+                {% endif %}
+    
                 {% if user.is_authenticated %}
                 <button><a href="{% url 'logout' %}">Logout</a></button>
                 {% else %}
                 <button><a href="{% url 'login' %}">Login</a></button>
                 {% endif %}
+            </ul>
+        </nav>
             </ul>
         </div>
     </nav> 
