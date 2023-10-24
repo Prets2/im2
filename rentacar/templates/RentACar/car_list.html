@@ -94,11 +94,17 @@
                 background-image: url('/static/RentACar/images/ertiganew.png'); /* Replace with your image path */
             }
     
-            .view-button {
+            .button-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 position: absolute;
                 bottom: 10px;
-                right: 10px;
-                background-color: red;
+                width: 100%;
+            }
+            
+            .rent-button {
+                background-color: #f5030f;
                 color: #fff;
                 border: none;
                 padding: 5px 10px;
@@ -106,31 +112,25 @@
                 cursor: pointer;
                 border-radius: 5px;
                 transition: background-color 0.3s;
-               margin-left: 10px;
-               border-radius: 10px;
-               padding: 8px; /* Adjust the padding for buttons */
-               width: 80px; /* Adjust the width for buttons */
+                margin: 0 5px;
             }
-            
-            .view-button:hover {
-                background-color: #360101;
+            .rent-button:hover {
+                background-color: #610202;
             }
-    
-            .view-button:active {
-                background-color: #000000;
-            }
-    
-            .header-overlay {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.5);
-                z-index: 1;
-            }
-        </style>
-    
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const rentButtons = document.querySelectorAll('.rent-button');
+
+            rentButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const carID = this.dataset.carid;  
+                    window.location.href = `/cars/${carID}/`;  
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <nav class="navbar">
@@ -147,17 +147,16 @@
     </nav>
     <div class="section">
         {% for car in cars %}
-        <a href="{% url 'car_detail' car.CarID %}" class="card-link">
             <div class="box box{{ forloop.counter }}">
                 <div class="header-overlay"></div>
                 <div class="car-card">
                     <img src="{{ car.carPic.url }}" class="car-image">
-                    <h2>{{ car.carName }}</h2>
+                    <div class="button-container">
+                        <button class="rent-button" data-carid="{{ car.CarID }}">Rent</button>
+                    </div>
                 </div>
             </div>
-        </a>
         {% endfor %}
     </div>
-    
 </body>
 </html>
