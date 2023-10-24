@@ -28,7 +28,12 @@ def landing_page(request):
     return render(request, "RentACar/landingpage.html")
 
 def home(request):
-    return render(request, "RentACar/homepage.html")
+    user_is_admin = request.user.is_staff
+
+    context = {
+        'user_is_admin': user_is_admin,
+    }
+    return render(request, "RentACar/homepage.html",context)
 
 def viosfinal(request):
     # Add your logic for the 'viosfinal' view here
@@ -69,10 +74,10 @@ class CustomLoginView(LoginView):
         messages.error(self.request, "Invalid username or password. Please try again.")
         return super().form_invalid(form)
     
+    
 def car_detail(request, car_id):
     car = get_object_or_404(Car, CarID=car_id)
     return render(request, "RentACar/car_detail.html", {'car': car})    
-
 
 def register(request):
     if request.method == "POST":
