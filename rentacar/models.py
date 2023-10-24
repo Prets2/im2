@@ -27,3 +27,5 @@ class Order(models.Model):
     carName = models.CharField(max_length=255)
     dateRange = models.DateField()
     total = models.DecimalField(max_digits=10, decimal_places=2)
+    duration = models.IntegerField(default=0)
+
