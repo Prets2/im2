@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Car
+from .models import Car, Order
 
 
 class CarAdmin(admin.ModelAdmin):
@@ -15,3 +15,9 @@ class CarAdmin(admin.ModelAdmin):
     display_car_pic.short_description = 'Car Picture'
 
 admin.site.register(Car, CarAdmin)
+
+class OrdersAdmin(admin.ModelAdmin):
+    list_display = ['orderNumber', 'userid', 'carid', 'carName', 'dateRange', 'total']
+
+
+admin.site.register(Order, OrdersAdmin)
