@@ -13,11 +13,3 @@ class Car(models.Model):
 
     def __str__(self):
         return self.carName
-
-class Order(models.Model):
-    order_number = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    car = models.ForeignKey(Car, on_delete=models.CASCADE)
-    car_name = models.CharField(max_length=255)
-    date_range = models.DateField(max_length=100)  # You might want to use a DateField for actual dates
-    total = models.DecimalField(max_digits=10, decimal_places=2)

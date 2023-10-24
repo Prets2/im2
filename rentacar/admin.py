@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Car, Order
+from .models import Car
 
 
 class CarAdmin(admin.ModelAdmin):
@@ -15,11 +15,3 @@ class CarAdmin(admin.ModelAdmin):
     display_car_pic.short_description = 'Car Picture'
 
 admin.site.register(Car, CarAdmin)
-
-class OrderAdmin(admin.ModelAdmin):
-    list_display = ('order_number', 'user', 'car_name', 'date_range', 'total')
-    list_filter = ('user', 'date_range')
-    search_fields = ('car_name', 'order_number')
-    date_hierarchy = 'date_range'  # Set to the DateField in your model
-
-admin.site.register(Order, OrderAdmin)
