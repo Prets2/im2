@@ -20,6 +20,7 @@ from django.http import JsonResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Order, Car
+from django.shortcuts import render, redirect, get_object_or_404
 import random
 import string
 import json
@@ -202,3 +203,21 @@ def add_car(request):
         form = CarForm()
 
     return render(request, "RentACar/add_car.html", {"form": form})
+
+def update_car(request, car_id):
+    # Retrieve the car object from the database
+    car = get_object_or_404(Car, CarID=car_id)
+
+    if request.method == "POST":
+        form = CarForm(request.POST, request.FILES, instance=car)
+        if form.is_valid():
+            form.save()  # Save the updated data to the database
+            return redirect('car_management')  # Redirect to the car management page
+    else:
+        form = CarForm(instance=car)
+
+    context = {
+        'form': form,
+        'car': car,
+    }
+    return render(request, 'RentACar/update_car.html', context)
