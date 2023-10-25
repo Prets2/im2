@@ -2,6 +2,7 @@ from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
 from . import views
 
+
 urlpatterns = [
     path('', views.landing_page, name='landing_page'),
     path('home', views.home, name='home'),
@@ -12,5 +13,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('terms_and_conditions/', views.terms_and_conditions, name='terms_and_conditions'),
     path('api/get-username/', views.get_username, name='get-username'),
-    path('cars/<int:car_id>/', views.car_detail, name='car_detail')
+    path('cars/<int:car_id>/', views.car_detail, name='car_detail'),
+    path('carman.html', views.car_management, name='car_management'),
 ]
+
