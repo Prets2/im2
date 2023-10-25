@@ -14,10 +14,7 @@ urlpatterns = [
     path('terms_and_conditions/', views.terms_and_conditions, name='terms_and_conditions'),
     path('api/get-username/', views.get_username, name='get-username'),
     path('cars/<int:car_id>/', views.car_detail, name='car_detail'),
-<<<<<<< HEAD
-    path('cart/<int:car_id>/', views.cart, name='cart')
-=======
-    path('carman.html', views.car_management, name='car_management'),
->>>>>>> b8c90ef8d9a8dc18c7ef9cbb974edb59b32653c1
+    path('cart/<int:car_id>/', views.cart, name='cart'),
+    path('carman.html', views.car_management, name='car_management')
 ]
 
