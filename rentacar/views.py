@@ -47,6 +47,9 @@ def ertigafinal(request):
 def terms_and_conditions(request):
     return render(request, "RentACar/terms_and_conditions.html")
 
+def car_management(request):
+    # Add your logic for car management here
+    return render(request, "RentACar/carman.html")
 
 def cars(request):
     car = Car.objects.all()
@@ -108,3 +111,4 @@ def register(request):
 def logout_view(request):
     logout(request)
     return redirect("login")
+

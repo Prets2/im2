@@ -22,7 +22,7 @@
                 <li><a href="{% url 'cars' %}">Cars</a></li>
                 <li><a href="{% url 'about' %}">About</a></li>
                 {% if user_is_admin %}
-                <li><a href="/edit-cars">Edit cars</a></li>
+                <li><a href="{% url 'car_management' %}">Edit cars</a></li>
                 {% endif %}
     
                 {% if user.is_authenticated %}
