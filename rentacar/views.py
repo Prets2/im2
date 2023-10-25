@@ -54,6 +54,9 @@ def create_order(request):
             duration=duration,
         )
 
+        car.status = 1
+        car.save()
+        
         return JsonResponse({'success': True, 'orderNumber': order.orderNumber})
     else:
         return JsonResponse({'success': False, 'error': 'Invalid request method'})

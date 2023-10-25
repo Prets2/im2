@@ -218,7 +218,18 @@
             <button class="checkout-button" id="agreeButton" disabled>Agree and Continue</button>
         </div>
     </div>
-
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <h2>Success!</h2>
+            <p>You have successfully checked out. Here are your order details:</p>
+            <p>Order Number: <span id="orderNumber"></span></p>
+            <p>Car Name: <span id="carName"></span></p>
+            <p>Start Date: <span id="startDate"></span></p>
+            <p>End Date: <span id="endDate"></span></p>
+            <p>Total: ₱<span id="total"></span></p>
+        </div>
+    </div>
+    
     <!-- Your existing HTML content here -->
 
     <script>
@@ -293,10 +304,6 @@
                 });
 
             });
-
-
-            startDateInput.addEventListener('change', disableReservedDates);
-            endDateInput.addEventListener('change', disableReservedDates);
         });
     </script>
 </body>
