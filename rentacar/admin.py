@@ -17,7 +17,9 @@ class CarAdmin(admin.ModelAdmin):
 admin.site.register(Car, CarAdmin)
 
 class OrdersAdmin(admin.ModelAdmin):
-    list_display = ['orderNumber', 'userid', 'carid', 'carName', 'dateRange', 'total','duration']
+    list_display = ('orderNumber', 'userid', 'carid', 'carName', 'dateRange', 'total', 'duration')
+    search_fields = ('orderNumber', 'carName')
+    list_filter = ('dateRange',)
 
 
 admin.site.register(Order, OrdersAdmin)
