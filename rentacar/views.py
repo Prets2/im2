@@ -65,6 +65,9 @@ def carlists(request):
     # Your carlists view logic goes here
     return render(request, "RentACar/login.html")
 
+def cart(request, car_id):
+    car = get_object_or_404(Car, CarID=car_id)
+    return render(request, "RentACar/cart.html", {'car': car})
 
 class CustomLoginView(LoginView):
     template_name = "RentACar/login.html"
