@@ -7,5 +7,5 @@ from .models import Order
 class CarForm(forms.ModelForm):
     class Meta:
         model = Car
-        fields = ['carName', 'carType', 'carDescription', 'carRate', 'carPic']
+        fields = ['carName', 'carType', 'carDescription', 'carRate', 'carPic', 'status']
 

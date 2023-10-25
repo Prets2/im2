@@ -204,6 +204,10 @@ def add_car(request):
 
     return render(request, "RentACar/add_car.html", {"form": form})
 
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Car
+from .forms import CarForm
+
 def update_car(request, car_id):
     # Retrieve the car object from the database
     car = get_object_or_404(Car, CarID=car_id)
@@ -211,8 +215,15 @@ def update_car(request, car_id):
     if request.method == "POST":
         form = CarForm(request.POST, request.FILES, instance=car)
         if form.is_valid():
-            form.save()  # Save the updated data to the database
+            car = form.save()  # Save the updated data to the database
+
+            # Update availability (status) based on the form's status field
+            if 'status' in form.cleaned_data:
+                car.status = 0 if form.cleaned_data['status'] == 0 else 1
+                car.save()
+
             return redirect('car_management')  # Redirect to the car management page
+
     else:
         form = CarForm(instance=car)
 
@@ -221,6 +232,7 @@ def update_car(request, car_id):
         'car': car,
     }
     return render(request, 'RentACar/update_car.html', context)
+
 
 def delete_car(request, car_id):
     car = get_object_or_404(Car, pk=car_id)
