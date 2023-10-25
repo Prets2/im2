@@ -136,16 +136,6 @@
         </div>
     </nav>
 
-    <div class="car-details">
-        <h2>{{ car.carName }}</h2>
-        <p>{{ car.carDescription }}</p>
-        <p>Car Type: {{ car.carType }}</p>
-        <p>Car Rate: ₱{{ car.carRate }}</p>
-        {% if car.carPic %}
-            <img src="{{ car.carPic.url }}" alt="{{ car.carName }}" width="300" height="200">
-        {% endif %}
-    </div>
-    <button class="rent-button" data-carid="{{ car.CarID }}">Rent</button>
 
 </body>
 </html>
