@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CARS</title>
     <link rel="icon" href="{% static 'RentACar/images/favicon.jpg' %}" type="image/jpg">
+    <link rel="stylesheet" type="text/css" href="{% static 'RentACar/css/car_list.css' %}">
     <style>
         * {
             text-decoration: none;
@@ -14,14 +15,14 @@
         body {
             margin: 0; /* Remove default margin */
             padding: 0; /* Remove default padding */
-            background-image: url('../images/landing.jpg'); 
             background-repeat: no-repeat;
             background-size: cover;
             background-color: #1C1C1C;
+            color: white;
         }
         
         .navbar {
-            background: black;
+            background: rgb(42, 42, 42);
             font-family: calibri;
             padding: 0; /* Remove padding */
             margin: 0; /* Remove margin */
@@ -35,7 +36,7 @@
         }
         
         .brand a {
-            font-size: 30px; /* Reduce the font size for the brand */
+            font-size: 15px; /* Reduce the font size for the brand */
             font-weight: 600;
             color: white;
         }
@@ -86,19 +87,17 @@
                 border-radius: 20px;
             }
     
-            .box1 {
-                background-image: url('/static/RentACar/images/viosnew.png'); /* Replace with your image path */
-            }
-    
-            .box2 {
-                background-image: url('/static/RentACar/images/ertiganew.png'); /* Replace with your image path */
-            }
-    
-            .view-button {
+            .button-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 position: absolute;
                 bottom: 10px;
-                right: 10px;
-                background-color: red;
+                width: 100%;
+            }
+            
+            .rent-button {
+                background-color: #f5030f;
                 color: #fff;
                 border: none;
                 padding: 5px 10px;
@@ -106,54 +105,51 @@
                 cursor: pointer;
                 border-radius: 5px;
                 transition: background-color 0.3s;
-               margin-left: 10px;
-               border-radius: 10px;
-               padding: 8px; /* Adjust the padding for buttons */
-               width: 80px; /* Adjust the width for buttons */
+                margin: 0 5px;
             }
-            
-            .view-button:hover {
-                background-color: #360101;
+            .rent-button:hover {
+                background-color: #610202;
             }
-    
-            .view-button:active {
-                background-color: #000000;
-            }
-    
-            .header-overlay {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.5);
-                z-index: 1;
-            }
-        </style>
-    
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const rentButtons = document.querySelectorAll('.rent-button');
+
+            rentButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const carID = this.dataset.carid;  
+                    window.location.href = `/cars/${carID}/`;  
+                });
+            });
+        });
+    </script>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="navdiv">
-            <div class="brand"><a href="{% url 'home' %}"><h1><span class="white-text">RENTA</span><span class="red-text">CAR</span></h1></a></div>
-            
-            <ul>
-                {% if user.is_authenticated %}
-                <button><a href="{% url 'logout' %}">Logout</a></button>
-                {% else %}
-                <button><a href="{% url 'login' %}">Login</a></button>
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
-
-    <div class="section">
-        <div class="box box1">
-            <a href="{% url 'viosfinal' %}"><button class="view-button">View</button></a>
-        </div>
-        <div class="box box2">
-            <a href="{% url 'ertigafinal' %}"><button class="view-button">View</button></a>
-        </div>
-    </div>
-</body>
-</html>
+    <header>
+        <nav class="navbar">
+            <div class="navdiv">
+                <div class="brand"><a href="{% url 'home' %}"><h1><span class="white-text">RENTA</span><span class="red-text">CAR</span></h1></a></div>
+                <div class="centered-text" style="text-align: left;">
+                    {% if user.is_authenticated %}
+                    <h2>Welcome, {{ user.username }}</h2>
+                    {% endif %}
+                    </div>
+                <ul>
+                    <li><a href="{% url 'cars' %}">Cars</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    {% if user_is_admin %}
+                    <li><a href="{% url 'car_management' %}">Edit cars</a></li>
+                    {% endif %}
+        
+                    {% if user.is_authenticated %}
+                    <button><a href="{% url 'logout' %}">Logout</a></button>
+                    {% else %}
+                    <button><a href="{% url 'login' %}">Login</a></button>
+                    {% endif %}
+                </ul>
+            </nav>
+                </ul>
+            </div>
+        </nav> 
+    </header>
