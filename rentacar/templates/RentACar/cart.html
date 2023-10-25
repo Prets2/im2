@@ -198,7 +198,7 @@
     </div>
     <div class="date-picker">
         <label for="endDate">Select End Date:</label>
-        <input type="date" id="endDate" required> <!-- Make sure the id is "endDate" -->
+        <input type="date" id="endDate" required>
     </div>
     <form class="duration-form">
         <label for="duration">Duration (in days):</label>
@@ -219,7 +219,7 @@
     <!-- Your existing HTML content here -->
 
     <script>
-        var csrfToken = "{{ csrf_token }}"; // Store the CSRF token in a JavaScript variable
+        var csrfToken = "{{ csrf_token }}";
 
         document.addEventListener('DOMContentLoaded', function () {
             const checkoutButton = document.getElementById('checkout-button');
@@ -229,17 +229,16 @@
             const modal = document.getElementById('termsModal');
             const agreeButton = document.getElementById('agreeButton');
             const agreeCheckbox = document.getElementById('agreeCheckbox');
-            const errorMessage = document.getElementById('error-message');
 
             function calculateDuration() {
                 const startDate = new Date(startDateInput.value);
                 const endDate = new Date(endDateInput.value);
                 if (!isNaN(startDate) && !isNaN(endDate)) {
                     const durationInMilliseconds = endDate - startDate;
-                    const durationInDays = durationInMilliseconds / (1000 * 60 * 60 * 24); // Milliseconds to days
-                    durationInput.value = Math.max(durationInDays, 0).toFixed(0); // Ensure it's a non-negative integer
+                    const durationInDays = durationInMilliseconds / (1000 * 60 * 60 * 24);
+                    durationInput.value = Math.max(durationInDays, 0).toFixed(0);
                 } else {
-                    durationInput.value = ''; // Clear the duration if the dates are invalid
+                    durationInput.value = '';
                 }
             }
 
@@ -248,8 +247,7 @@
             calculateDuration();
 
             checkoutButton.addEventListener('click', function (event) {
-                event.preventDefault(); // Prevent the form from submitting
-
+                event.preventDefault();
                 const carID = '{{ car.CarID }}';
                 const startDate = startDateInput.value;
                 const endDate = endDateInput.value;
@@ -259,12 +257,15 @@
                 modal.style.display = 'block';
 
                 agreeCheckbox.addEventListener('change', function () {
-                    // Enable the "Agree and Continue" button when the checkbox is checked
                     agreeButton.disabled = !agreeCheckbox.checked;
                 });
 
                 agreeButton.addEventListener('click', function () {
-                
+                    if (agreeCheckbox.checked) {
+                        // Handle form submission or other actions here
+                        // You can use the variables carID, startDate, endDate, and duration
+                        alert('Form submitted');
+                    }
                 });
             });
         });

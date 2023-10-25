@@ -19,9 +19,27 @@ from django.forms import ModelForm
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import uuid
-        
-
+from django.shortcuts import render, redirect
+from .forms import OrderForm 
 from .forms import CarForm
+
+def create_order(request):
+    if request.method == 'POST':
+        order_form = OrderForm(request.POST)
+        if order_form.is_valid():
+            order = order_form.save(commit=False)  # Create a new Order instance
+            order.user = request.user  # Assuming you have a logged-in user
+            order.duration = (order.end_date - order.start_date).days  # Calculate the duration
+            order.total = order.duration * order.car.carRate  # Calculate the total price
+            order.orderNumber = generate_unique_order_number()  # Define the unique order number (implement this function)
+            order.save()
+
+            return JsonResponse({'success': True, 'message': 'Order created successfully'})
+        else:
+            # Handle form validation errors
+            return JsonResponse({'success': False, 'message': 'Invalid form data'})
+
+    return JsonResponse({'success': False, 'message': 'Invalid request method'})
 
 def get_username(request):
     if request.user.is_authenticated:

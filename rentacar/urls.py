@@ -18,9 +18,10 @@ urlpatterns = [
     path('terms_and_conditions/', views.terms_and_conditions, name='terms_and_conditions'),
     path('api/get-username/', views.get_username, name='get-username'),
     path('cars/<int:car_id>/', views.car_detail, name='car_detail'),
-    path('checkout/<int:car_id>/', views.cart, name='cart'),
+    path('cart/<int:car_id>/', views.cart, name='cart'),
     path('carman.html', views.car_management, name='car_management'),
     path('car/add/', views.add_car, name='add_car'),
+    path('create_order/', views.create_order, name='create_order')
 ]
 
 if settings.DEBUG:
