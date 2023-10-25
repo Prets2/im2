@@ -13,32 +13,80 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.shortcuts import render
 from django.shortcuts import render
-from django.http import JsonResponse
-from .models import Car
+from .models import Car, Order
 from django.shortcuts import render, get_object_or_404
 from django.forms import ModelForm
+from django.http import JsonResponse
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import Order, Car
+import random
+import string
+import json
+
+@csrf_exempt
+def create_order(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        car_id = data['carID']
+        start_date = data['startDate']
+        end_date = data['endDate']
+        duration = data['duration']
+
+        # Retrieve the Car object
+        car = Car.objects.get(pk=car_id)
+
+        # Generate a random order number
+        order_number = ''.join(random.choices(string.digits, k=8))
+
+        # Calculate the total (replace this with your own logic)
+        total = car.carRate * float(duration)
+
+        # Create the Order object
+        order = Order.objects.create(
+            orderNumber=order_number,
+            userid=request.user,
+            carid=car,
+            carName=car.carName,
+            startDate=start_date,
+            endDate=end_date,
+            total=total,
+            duration=duration,
+        )
+
+        return JsonResponse({'success': True, 'orderNumber': order.orderNumber})
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+
+from django.shortcuts import render, redirect
+from .forms import CarForm
 
 def get_username(request):
     if request.user.is_authenticated:
         username = request.user.username
-        return JsonResponse({'username': username})
+        return JsonResponse({"username": username})
     else:
-        return JsonResponse({'error': 'User not authenticated'})
-    
+        return JsonResponse({"error": "User not authenticated"})
+
+
 def landing_page(request):
     return render(request, "RentACar/landingpage.html")
+
 
 def home(request):
     user_is_admin = request.user.is_staff
 
     context = {
-        'user_is_admin': user_is_admin,
+        "user_is_admin": user_is_admin,
     }
-    return render(request, "RentACar/homepage.html",context)
+    return render(request, "RentACar/homepage.html", context)
+
 
 def viosfinal(request):
     # Add your logic for the 'viosfinal' view here
     return render(request, "RentACar/viosfinal.html")
+
 
 def ertigafinal(request):
     # Add your logic for the 'viosfinal' view here
@@ -48,20 +96,21 @@ def ertigafinal(request):
 def terms_and_conditions(request):
     return render(request, "RentACar/terms_and_conditions.html")
 
+
 def car_management(request):
     # Check if the user is an admin
     user_is_admin = request.user.is_staff
     # Fetch the list of cars from the database
     cars = Car.objects.all()
     context = {
-        'user_is_admin': user_is_admin,
-        'cars': cars,  # Pass the list of cars to the template
+        "user_is_admin": user_is_admin,
     }
     return render(request, "RentACar/carman.html", context)
 
+
 def cars(request):
     car = Car.objects.all()
-    return render(request, "RentACar/car_list.html", {'cars': car} )
+    return render(request, "RentACar/car_list.html", {"cars": car})
 
 
 def about(request):
@@ -72,9 +121,11 @@ def about(request):
 def carlists(request):
     return render(request, "RentACar/login.html")
 
+
 def cart(request, car_id):
     car = get_object_or_404(Car, CarID=car_id)
-    return render(request, "RentACar/cart.html", {'car': car})
+    return render(request, "RentACar/cart.html", {"car": car})
+
 
 class CustomLoginView(LoginView):
     template_name = "RentACar/login.html"
@@ -83,14 +134,16 @@ class CustomLoginView(LoginView):
 
     def get_success_url(self):
         return self.success_url
+
     def form_invalid(self, form):
         messages.error(self.request, "Invalid username or password. Please try again.")
         return super().form_invalid(form)
-    
-    
+
+
 def car_detail(request, car_id):
     car = get_object_or_404(Car, CarID=car_id)
-    return render(request, "RentACar/car_detail.html", {'car': car})    
+    return render(request, "RentACar/car_detail.html", {"car": car})
+
 
 def register(request):
     if request.method == "POST":
@@ -115,23 +168,50 @@ def register(request):
         return redirect("login")
     return render(request, "RentACar/register.html")
 
+
 def logout_view(request):
     logout(request)
     return redirect("login")
 
+
 class CarForm(ModelForm):
     class Meta:
         model = Car
-        fields = ['carName', 'carType', 'carDescription', 'carRate']
+        fields = ["carName", "carType", "carDescription", "carRate"]
+
 
 @login_required
 def add_car(request):
     if request.method == "POST":
-        form = CarForm(request.POST)
+        form = CarForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('car_management')
+            return redirect("car_management")
     else:
         form = CarForm()
-    
-    return render(request, 'add_car.html', {'form': form})
+
+    return render(request, "RentACar/add_car.html", {"form": form})
+
+
+@login_required
+def edit_car(request, car_id):
+    car = get_object_or_404(Car, id=car_id)
+    if request.method == "POST":
+        form = CarForm(request.POST, instance=car)
+        if form.is_valid():
+            form.save()
+            return redirect("car_management")
+    else:
+        form = CarForm(instance=car)
+
+    return render(request, "edit_car.html", {"form": form})
+
+
+@login_required
+def delete_car(request, car_id):
+    car = get_object_or_404(Car, id=car_id)
+    if request.method == "POST":
+        car.delete()
+        return redirect("car_management")
+
+    return render(request, "delete_car.html", {"car": car})

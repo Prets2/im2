@@ -1,6 +1,8 @@
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -17,5 +19,10 @@ urlpatterns = [
     path('cart/<int:car_id>/', views.cart, name='cart'),
     path('carman.html', views.car_management, name='car_management'),
     path('car/add/', views.add_car, name='add_car'),
+    path('car/edit/<int:car_id>/', views.edit_car, name='edit_car'),
+    path('car/delete/<int:car_id>/', views.delete_car, name='delete_car'),
+    path('create_order/', views.create_order, name='create_order'),
 ]
 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

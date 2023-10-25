@@ -11,105 +11,158 @@
         * {
             text-decoration: none;
         }
-        
+
         body {
-            margin: 0; /* Remove default margin */
-            padding: 0; /* Remove default padding */
+            margin: 0;
+            padding: 0;
             background-repeat: no-repeat;
             background-size: cover;
             background-color: #1C1C1C;
             color: white;
         }
-        
+
         .navbar {
             background: rgb(42, 42, 42);
             font-family: calibri;
-            padding: 0; /* Remove padding */
-            margin: 0; /* Remove margin */
+            padding: 0;
+            margin: 0;
         }
-        
+
         .navdiv {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 5px 15px; /* Adjust the padding to make it smaller */
+            padding: 5px 15px;
         }
-        
+
         .brand a {
-            font-size: 15px; /* Reduce the font size for the brand */
+            font-size: 15px;
             font-weight: 600;
             color: white;
         }
-        
+
         nav li {
             list-style: none;
             display: inline-block;
         }
-        
+
         nav li a {
             color: white;
-            font-size: 16px; /* Reduce the font size for the links */
+            font-size: 16px;
             font-weight: bold;
-            margin-right: 20px; /* Adjust the margin as needed */
+            margin-right: 20px;
         }
-        
+
         nav button {
             background-color: black;
             margin-left: 10px;
             border-radius: 10px;
-            padding: 8px; /* Adjust the padding for buttons */
-            width: 80px; /* Adjust the width for buttons */
+            padding: 8px;
+            width: 80px;
         }
-        
+
         nav button a {
             color: white;
             font-weight: bold;
-            font-size: 14px; /* Reduce the font size for button text */
+            font-size: 14px;
         }
-        
+
         .red-text {
             color: red;
             font-weight: bold;
         }
-    
+
         .section {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-                margin: 20px;
-            }
-    
-            .box {
-                position: relative;
-                height: 300px;
-                background-size: cover;
-                background-position: center;
-                border-radius: 20px;
-            }
-    
-            .button-container {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                position: absolute;
-                bottom: 10px;
-                width: 100%;
-            }
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 20px;
+        }
+
+        .box {
+            position: relative;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+        }
+
+        .rent-button {
+            background-color: #f5030f;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin: 0 5px;
+        }
+
+        .rent-button:hover {
+            background-color: #610202;
+        }
+
+        /* Form styles */
+        form {
             
-            .rent-button {
-                background-color: #f5030f;
-                color: #fff;
-                border: none;
-                padding: 5px 10px;
-                font-size: 16px;
-                cursor: pointer;
-                border-radius: 5px;
-                transition: background-color 0.3s;
-                margin: 0 5px;
-            }
-            .rent-button:hover {
-                background-color: #610202;
-            }
+            padding: 40px;
+            border-radius: 10px;
+            
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        label {
+            font-weight: bold;
+            color: #f5030f;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 5px;
+            color: white;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 5px;
+            color: white;
+        }
+
+        button[type="submit"] {
+            background-color: #f5030f;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #610202;
+        }
     </style>
 
     <script>
@@ -118,8 +171,8 @@
 
             rentButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    const carID = this.dataset.carid;  
-                    window.location.href = `/cars/${carID}/`;  
+                    const carID = this.dataset.carid;
+                    window.location.href = `/cars/${carID}/`;
                 });
             });
         });
@@ -134,22 +187,44 @@
                     {% if user.is_authenticated %}
                     <h2>Welcome, {{ user.username }}</h2>
                     {% endif %}
-                    </div>
+                </div>
                 <ul>
                     <li><a href="{% url 'cars' %}">Cars</a></li>
                     <li><a href="{% url 'about' %}">About</a></li>
                     {% if user_is_admin %}
                     <li><a href="{% url 'car_management' %}">Edit cars</a></li>
                     {% endif %}
-        
+
                     {% if user.is_authenticated %}
                     <button><a href="{% url 'logout' %}">Logout</a></button>
                     {% else %}
                     <button><a href="{% url 'login' %}">Login</a></button>
                     {% endif %}
                 </ul>
-            </nav>
-                </ul>
             </div>
-        </nav> 
+        </nav>
     </header>
+
+    <!-- Add this form to your add_car.html template -->
+    <form method="post" enctype="multipart/form-data">  <!-- Add enctype attribute -->
+        {% csrf_token %}
+        <label for="carName">Car Name:</label>
+        <input type="text" id="carName" name="carName" required>
+    
+        <label for="carType">Car Type:</label>
+        <input type="text" id="carType" name="carType" required>
+    
+        <label for="carDescription">Car Description:</label>
+        <textarea id="carDescription" name="carDescription" required></textarea>
+    
+        <label for="carRate">Car Rate:</label>
+        <input type="number" id="carRate" name="carRate" required>
+    
+        <label for="carImage">Car Picture:</label>
+        <input type="file" id="carImage" name="carPic" accept="image/*" required>  <!-- Update name attribute to 'carPic' -->
+    
+        <button type="submit">Add Car</button>
+    </form>
+    
+</body>
+</html>
