@@ -19,11 +19,7 @@ urlpatterns = [
     path('cart/<int:car_id>/', views.cart, name='cart'),
     path('carman.html', views.car_management, name='car_management'),
     path('car/add/', views.add_car, name='add_car'),
-    path('car/edit/<int:car_id>/', views.edit_car, name='edit_car'),
-    path('car/delete/<int:car_id>/', views.delete_car, name='delete_car'),
     path('create_order/', views.create_order, name='create_order'),
-    path('reserve/<int:car_id>/', views.reserve, name='create_order'),
-    path('get_reserved_dates/', views.get_reserved_dates, name='get_reserved_dates'),
 ]
 
 if settings.DEBUG:

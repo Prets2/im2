@@ -23,7 +23,6 @@ from .models import Order, Car
 import random
 import string
 import json
-from datetime import timedelta
 
 @csrf_exempt
 def create_order(request):
@@ -55,8 +54,6 @@ def create_order(request):
             duration=duration,
         )
 
-        car.status = 1
-        car.save()
         return JsonResponse({'success': True, 'orderNumber': order.orderNumber})
     else:
         return JsonResponse({'success': False, 'error': 'Invalid request method'})
@@ -107,6 +104,7 @@ def car_management(request):
     cars = Car.objects.all()
     context = {
         "user_is_admin": user_is_admin,
+        "cars": cars,  # Add the 'cars' context variable
     }
     return render(request, "RentACar/carman.html", context)
 
@@ -129,25 +127,7 @@ def cart(request, car_id):
     car = get_object_or_404(Car, CarID=car_id)
     return render(request, "RentACar/cart.html", {"car": car})
 
-def reserve(request, car_id):
-    car = get_object_or_404(Car, CarID=car_id)
-    return render(request, "RentACar/reserve.html", {"car": car})
 
-def get_reserved_dates(request):
-    if request.method == 'GET':
-        reserved_orders = Order.objects.values_list('startDate', 'endDate')
-        reserved_dates = []
-
-        for start_date, end_date in reserved_orders:
-            current_date = start_date
-            while current_date <= end_date:
-                reserved_dates.append(str(current_date))
-                current_date += timedelta(days=1)
-
-        return JsonResponse({'reservedDates': reserved_dates})
-    else:
-        return JsonResponse({'error': 'Invalid request method'})
-    
 class CustomLoginView(LoginView):
     template_name = "RentACar/login.html"
     redirect_authenticated_user = True
@@ -201,38 +181,21 @@ class CarForm(ModelForm):
         fields = ["carName", "carType", "carDescription", "carRate"]
 
 
+from .forms import CarForm  # Import the CarForm
+
 @login_required
 def add_car(request):
     if request.method == "POST":
         form = CarForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            car = form.save(commit=False)  # Create a car object but don't save it yet
+            car.save()  # Save the car object to generate a CarID
+            # Handle the image file upload
+            if 'carImage' in request.FILES:
+                car.carPic = request.FILES['carImage']
+                car.save()
             return redirect("car_management")
     else:
         form = CarForm()
 
     return render(request, "RentACar/add_car.html", {"form": form})
-
-
-@login_required
-def edit_car(request, car_id):
-    car = get_object_or_404(Car, id=car_id)
-    if request.method == "POST":
-        form = CarForm(request.POST, instance=car)
-        if form.is_valid():
-            form.save()
-            return redirect("car_management")
-    else:
-        form = CarForm(instance=car)
-
-    return render(request, "edit_car.html", {"form": form})
-
-
-@login_required
-def delete_car(request, car_id):
-    car = get_object_or_404(Car, id=car_id)
-    if request.method == "POST":
-        car.delete()
-        return redirect("car_management")
-
-    return render(request, "delete_car.html", {"car": car})
