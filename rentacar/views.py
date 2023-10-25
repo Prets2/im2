@@ -16,6 +16,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .models import Car
 from django.shortcuts import render, get_object_or_404
+from django.forms import ModelForm
 
 def get_username(request):
     if request.user.is_authenticated:
@@ -112,3 +113,41 @@ def logout_view(request):
     logout(request)
     return redirect("login")
 
+class CarForm(ModelForm):
+    class Meta:
+        model = Car
+        fields = ['carName', 'carType', 'carDescription', 'carRate']
+
+@login_required
+def add_car(request):
+    if request.method == "POST":
+        form = CarForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('car_management')
+    else:
+        form = CarForm()
+    
+    return render(request, 'add_car.html', {'form': form})
+
+@login_required
+def edit_car(request, car_id):
+    car = get_object_or_404(Car, id=car_id)
+    if request.method == "POST":
+        form = CarForm(request.POST, instance=car)
+        if form.is_valid():
+            form.save()
+            return redirect('car_management')
+    else:
+        form = CarForm(instance=car)
+    
+    return render(request, 'edit_car.html', {'form': form})
+
+@login_required
+def delete_car(request, car_id):
+    car = get_object_or_404(Car, id=car_id)
+    if request.method == "POST":
+        car.delete()
+        return redirect('car_management')
+    
+    return render(request, 'delete_car.html', {'car': car})

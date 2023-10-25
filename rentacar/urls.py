@@ -14,7 +14,14 @@ urlpatterns = [
     path('terms_and_conditions/', views.terms_and_conditions, name='terms_and_conditions'),
     path('api/get-username/', views.get_username, name='get-username'),
     path('cars/<int:car_id>/', views.car_detail, name='car_detail'),
+<<<<<<< HEAD
     path('cart/<int:car_id>/', views.cart, name='cart'),
     path('carman.html', views.car_management, name='car_management')
+=======
+    path('carman.html', views.car_management, name='car_management'),
+    path('car/add/', views.add_car, name='add_car'),
+    path('car/edit/<int:car_id>/', views.edit_car, name='edit_car'),
+    path('car/delete/<int:car_id>/', views.delete_car, name='delete_car'),
+>>>>>>> 7b906036881143e02a65435ba717a1cd6f157283
 ]
 
