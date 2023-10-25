@@ -21,11 +21,12 @@ def generate_order_number():
     return ''.join(random.choice(characters) for _ in range(8))
 
 class Order(models.Model):
-    orderNumber = models.CharField(max_length=8, primary_key=True, default=generate_order_number, unique=True)
+    orderNumber = models.CharField(max_length=8, primary_key=True, unique=True)
     userid = models.ForeignKey(User, on_delete=models.CASCADE)
     carid = models.ForeignKey(Car, on_delete=models.CASCADE)
     carName = models.CharField(max_length=255)
     dateRange = models.DateField()
     total = models.DecimalField(max_digits=10, decimal_places=2)
-    duration = models.IntegerField(default=0)
+    duration = models.DurationField()
+
 
