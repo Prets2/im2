@@ -2,6 +2,7 @@ from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
 from . import views
 
+
 urlpatterns = [
     path('', views.landing_page, name='landing_page'),
     path('home', views.home, name='home'),
@@ -14,3 +15,4 @@ urlpatterns = [
     path('api/get-username/', views.get_username, name='get-username'),
     path('cars/<int:car_id>/', views.car_detail, name='car_detail')
 ]
+

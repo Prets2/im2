@@ -1,9 +1,10 @@
 from django.contrib import admin
-from django.utils.html import format_html  # Add this import
-from .models import Car
+from django.utils.html import format_html
+from .models import Car, Order
+
 
 class CarAdmin(admin.ModelAdmin):
-    list_display = ['CarID', 'carName', 'carType', 'carDescription', 'carRate', 'display_car_pic','status']
+    list_display = ['CarID', 'carName', 'carType', 'carDescription', 'carRate', 'display_car_pic', 'status']
 
     def display_car_pic(self, obj):
         if obj.carPic:
@@ -14,3 +15,9 @@ class CarAdmin(admin.ModelAdmin):
     display_car_pic.short_description = 'Car Picture'
 
 admin.site.register(Car, CarAdmin)
+
+class OrdersAdmin(admin.ModelAdmin):
+    list_display = ['orderNumber', 'userid', 'carid', 'carName', 'dateRange', 'total','duration']
+
+
+admin.site.register(Order, OrdersAdmin)
