@@ -17,6 +17,7 @@ from django.http import JsonResponse
 from .models import Car, Order
 from django.shortcuts import render, get_object_or_404
 from django.forms import ModelForm
+<<<<<<< HEAD
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import uuid
@@ -61,6 +62,9 @@ def generate_unique_order_number():
     ]  # You can adjust the length as needed
     return order_number
 
+=======
+from .forms import CarForm
+>>>>>>> f286d568a705ede3bc90013470a0f6c7900b81b4
 
 def get_username(request):
     if request.user.is_authenticated:
@@ -98,14 +102,22 @@ def terms_and_conditions(request):
 
 
 def car_management(request):
-    # Add your logic for car management here
+    # Check if the user is an admin
     user_is_admin = request.user.is_staff
-
+    # Fetch the list of cars from the database
+    cars = Car.objects.all()
     context = {
+<<<<<<< HEAD
         "user_is_admin": user_is_admin,
     }
     return render(request, "RentACar/carman.html", context)
 
+=======
+        'user_is_admin': user_is_admin,
+        'cars': cars,  # Pass the list of cars to the template
+    }
+    return render(request, "RentACar/carman.html", context)
+>>>>>>> f286d568a705ede3bc90013470a0f6c7900b81b4
 
 def cars(request):
     car = Car.objects.all()
@@ -118,7 +130,6 @@ def about(request):
 
 @login_required
 def carlists(request):
-    # Your carlists view logic goes here
     return render(request, "RentACar/login.html")
 
 
@@ -183,12 +194,13 @@ class CarForm(ModelForm):
 @login_required
 def add_car(request):
     if request.method == "POST":
-        form = CarForm(request.POST)
+        form = CarForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect("car_management")
     else:
         form = CarForm()
+<<<<<<< HEAD
 
     return render(request, "add_car.html", {"form": form})
 
@@ -215,3 +227,6 @@ def delete_car(request, car_id):
         return redirect("car_management")
 
     return render(request, "delete_car.html", {"car": car})
+=======
+    return render(request, 'RentACar/add_car.html', {'form': form})
+>>>>>>> f286d568a705ede3bc90013470a0f6c7900b81b4
