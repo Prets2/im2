@@ -152,24 +152,8 @@
             </div>
         </nav> 
     </header>
-    <div class="section">
-        {% for car in cars %}
-        <div class="box box{{ forloop.counter }}">
-            <div class="header-overlay"></div>
-            <div class="car-card"> 
-                <div class="car-image-container">
-                    <img src="{{ car.carPic.url }}" class="car-image">
-                    <div class="button-container">
-                        <button class="rent-button" data-carid="{{ car.CarID }}">View</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-
     <h1>Car Management Dashboard</h1>
-    
+
     {% if user_is_admin %}
     <a href="{% url 'add_car' %}">Add New Car</a>
     <table>
@@ -186,15 +170,13 @@
             <td>{{ car.carType }}</td>
             <td>{{ car.carDescription }}</td>
             <td>{{ car.carRate }}</td>
-            <td>
-                <a href="{% url 'edit_car' car.id %}">Edit</a> |
-                <a href="{% url 'delete_car' car.id %}">Delete</a>
-            </td>
         </tr>
         {% endfor %}
     </table>
     {% else %}
     <p>You don't have permission to manage cars.</p>
     {% endif %}
+    <!-- Add any additional content or JavaScript at the end of the body -->
+
 </body>
 </html>

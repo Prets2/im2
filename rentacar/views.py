@@ -49,13 +49,15 @@ def terms_and_conditions(request):
     return render(request, "RentACar/terms_and_conditions.html")
 
 def car_management(request):
-    # Add your logic for car management here
+    # Check if the user is an admin
     user_is_admin = request.user.is_staff
-
+    # Fetch the list of cars from the database
+    cars = Car.objects.all()
     context = {
         'user_is_admin': user_is_admin,
+        'cars': cars,  # Pass the list of cars to the template
     }
-    return render(request, "RentACar/carman.html",context)
+    return render(request, "RentACar/carman.html", context)
 
 def cars(request):
     car = Car.objects.all()
@@ -68,7 +70,6 @@ def about(request):
 
 @login_required
 def carlists(request):
-    # Your carlists view logic goes here
     return render(request, "RentACar/login.html")
 
 def cart(request, car_id):
@@ -134,25 +135,3 @@ def add_car(request):
         form = CarForm()
     
     return render(request, 'add_car.html', {'form': form})
-
-@login_required
-def edit_car(request, car_id):
-    car = get_object_or_404(Car, id=car_id)
-    if request.method == "POST":
-        form = CarForm(request.POST, instance=car)
-        if form.is_valid():
-            form.save()
-            return redirect('car_management')
-    else:
-        form = CarForm(instance=car)
-    
-    return render(request, 'edit_car.html', {'form': form})
-
-@login_required
-def delete_car(request, car_id):
-    car = get_object_or_404(Car, id=car_id)
-    if request.method == "POST":
-        car.delete()
-        return redirect('car_management')
-    
-    return render(request, 'delete_car.html', {'car': car})
