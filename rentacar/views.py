@@ -13,54 +13,54 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.shortcuts import render
 from django.shortcuts import render
-from django.http import JsonResponse
 from .models import Car, Order
 from django.shortcuts import render, get_object_or_404
 from django.forms import ModelForm
 from django.http import JsonResponse
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-import uuid
+from .models import Order, Car
 import random
 import string
+import json
 
+@csrf_exempt
 def create_order(request):
     if request.method == 'POST':
-        car_id = request.POST.get('carID')
-        start_date = request.POST.get('startDate')
-        end_date = request.POST.get('endDate')
-        duration = request.POST.get('duration')
+        data = json.loads(request.body)
+        car_id = data['carID']
+        start_date = data['startDate']
+        end_date = data['endDate']
+        duration = data['duration']
 
-        # Calculate the total price based on car rate and duration
-        car = get_object_or_404(Car,car_id)
-        total = 1000
-        order_number = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
-        
+        # Retrieve the Car object
+        car = Car.objects.get(pk=car_id)
 
-        # Create the Order instance
-        order = Order(
+        # Generate a random order number
+        order_number = ''.join(random.choices(string.digits, k=8))
+
+        # Calculate the total (replace this with your own logic)
+        total = car.carRate * float(duration)
+
+        # Create the Order object
+        order = Order.objects.create(
             orderNumber=order_number,
-            userid=request.user,  # Assuming you have a logged-in user
-            carid=car.CarID,
+            userid=request.user,
+            carid=car,
             carName=car.carName,
             startDate=start_date,
             endDate=end_date,
             total=total,
-            duration=duration
+            duration=duration,
         )
 
-        order.save()
-
-        return JsonResponse({'success': True, 'message': 'Order created successfully'})
+        return JsonResponse({'success': True, 'orderNumber': order.orderNumber})
     else:
-        return JsonResponse({'success': False, 'message': 'Invalid request method'})
-        
-def generate_unique_order_number():
-    # Generate a unique order number using a UUID
-    order_number = str(uuid.uuid4()).replace("-", "")[
-        :8
-    ]  # You can adjust the length as needed
-    return order_number
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
+
+from django.shortcuts import render, redirect
+from .forms import CarForm
 
 def get_username(request):
     if request.user.is_authenticated:
