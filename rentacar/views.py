@@ -50,7 +50,12 @@ def terms_and_conditions(request):
 
 def car_management(request):
     # Add your logic for car management here
-    return render(request, "RentACar/carman.html")
+    user_is_admin = request.user.is_staff
+
+    context = {
+        'user_is_admin': user_is_admin,
+    }
+    return render(request, "RentACar/carman.html",context)
 
 def cars(request):
     car = Car.objects.all()

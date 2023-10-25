@@ -16,17 +16,16 @@ class Car(models.Model):
     def __str__(self):
         return self.carName
 
-def generate_order_number():
-    characters = string.digits + string.ascii_uppercase  # Include digits and uppercase letters
-    return ''.join(random.choice(characters) for _ in range(8))
-
 class Order(models.Model):
     orderNumber = models.CharField(max_length=8, primary_key=True, unique=True)
     userid = models.ForeignKey(User, on_delete=models.CASCADE)
     carid = models.ForeignKey(Car, on_delete=models.CASCADE)
     carName = models.CharField(max_length=255)
-    dateRange = models.DateField()
+    startDate = models.DateField(default=None)
+    endDate = models.DateField(default=None)
     total = models.DecimalField(max_digits=10, decimal_places=2)
     duration = models.DurationField()
 
-
+def generate_order_number():
+    characters = string.digits + string.ascii_uppercase  # Include digits and uppercase letters
+    return ''.join(random.choice(characters) for _ in range(8))
