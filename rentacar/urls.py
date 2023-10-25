@@ -20,8 +20,6 @@ urlpatterns = [
     path('carman.html', views.car_management, name='car_management'),
     path('car/add/', views.add_car, name='add_car'),
     path('create_order/', views.create_order, name='create_order'),
-    path('reserve/<int:car_id>/', views.reserve, name='create_order'),
-    path('get_reserved_dates/', views.get_reserved_dates, name='get_reserved_dates'),
 ]
 
 if settings.DEBUG:
