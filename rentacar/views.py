@@ -19,10 +19,11 @@ from django.forms import ModelForm
 from django.http import JsonResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Order, Car
 import random
 import string
 import json
+
+
 
 @csrf_exempt
 def create_order(request):
@@ -104,9 +105,9 @@ def car_management(request):
     cars = Car.objects.all()
     context = {
         "user_is_admin": user_is_admin,
+        "cars": cars,  # Add the 'cars' context variable
     }
     return render(request, "RentACar/carman.html", context)
-
 
 def cars(request):
     car = Car.objects.all()
@@ -192,26 +193,3 @@ def add_car(request):
 
     return render(request, "RentACar/add_car.html", {"form": form})
 
-
-@login_required
-def edit_car(request, car_id):
-    car = get_object_or_404(Car, id=car_id)
-    if request.method == "POST":
-        form = CarForm(request.POST, instance=car)
-        if form.is_valid():
-            form.save()
-            return redirect("car_management")
-    else:
-        form = CarForm(instance=car)
-
-    return render(request, "edit_car.html", {"form": form})
-
-
-@login_required
-def delete_car(request, car_id):
-    car = get_object_or_404(Car, id=car_id)
-    if request.method == "POST":
-        car.delete()
-        return redirect("car_management")
-
-    return render(request, "delete_car.html", {"car": car})
