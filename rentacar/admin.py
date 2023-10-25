@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.utils.html import format_html
 from .models import Car, Order
 
-
 class CarAdmin(admin.ModelAdmin):
     list_display = ['CarID', 'carName', 'carType', 'carDescription', 'carRate', 'display_car_pic', 'status']
 
@@ -17,9 +16,8 @@ class CarAdmin(admin.ModelAdmin):
 admin.site.register(Car, CarAdmin)
 
 class OrdersAdmin(admin.ModelAdmin):
-    list_display = ('orderNumber', 'userid', 'carid', 'carName', 'dateRange', 'total', 'duration')
+    list_display = ('orderNumber', 'userid', 'carid', 'carName', 'startDate', 'endDate', 'total', 'duration')
     search_fields = ('orderNumber', 'carName')
-    list_filter = ('dateRange',)
-
+    list_filter = ('startDate',)
 
 admin.site.register(Order, OrdersAdmin)
