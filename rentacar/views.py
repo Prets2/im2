@@ -187,6 +187,10 @@ class CarForm(ModelForm):
 
 from .forms import CarForm  # Import the CarForm
 
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Car
+from .forms import CarForm
+
 @login_required
 def add_car(request):
     if request.method == "POST":
@@ -204,9 +208,7 @@ def add_car(request):
 
     return render(request, "RentACar/add_car.html", {"form": form})
 
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Car
-from .forms import CarForm
+
 
 def update_car(request, car_id):
     # Retrieve the car object from the database
