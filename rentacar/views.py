@@ -192,6 +192,7 @@ from .models import Car
 from .forms import CarForm
 
 @login_required
+
 def add_car(request):
     if request.method == "POST":
         form = CarForm(request.POST, request.FILES)
