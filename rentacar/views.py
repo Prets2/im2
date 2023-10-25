@@ -17,6 +17,7 @@ from django.http import JsonResponse
 from .models import Car
 from django.shortcuts import render, get_object_or_404
 from django.forms import ModelForm
+from .forms import CarForm
 
 def get_username(request):
     if request.user.is_authenticated:
@@ -127,11 +128,10 @@ class CarForm(ModelForm):
 @login_required
 def add_car(request):
     if request.method == "POST":
-        form = CarForm(request.POST)
+        form = CarForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('car_management')
     else:
         form = CarForm()
-    
-    return render(request, 'add_car.html', {'form': form})
+    return render(request, 'RentACar/add_car.html', {'form': form})
