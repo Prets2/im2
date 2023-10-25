@@ -167,5 +167,34 @@
         </div>
         {% endfor %}
     </div>
+
+    <h1>Car Management Dashboard</h1>
+    
+    {% if user_is_admin %}
+    <a href="{% url 'add_car' %}">Add New Car</a>
+    <table>
+        <tr>
+            <th>Car Name</th>
+            <th>Car Type</th>
+            <th>Car Description</th>
+            <th>Car Rate</th>
+            <th>Actions</th>
+        </tr>
+        {% for car in cars %}
+        <tr>
+            <td>{{ car.carName }}</td>
+            <td>{{ car.carType }}</td>
+            <td>{{ car.carDescription }}</td>
+            <td>{{ car.carRate }}</td>
+            <td>
+                <a href="{% url 'edit_car' car.id %}">Edit</a> |
+                <a href="{% url 'delete_car' car.id %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>You don't have permission to manage cars.</p>
+    {% endif %
 </body>
 </html>
