@@ -190,7 +190,7 @@ def add_car(request):
     else:
         form = CarForm()
 
-    return render(request, "add_car.html", {"form": form})
+    return render(request, "RentACar/add_car.html", {"form": form})
 
 
 @login_required
