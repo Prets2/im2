@@ -17,10 +17,49 @@ from .models import Car, Order
 from django.shortcuts import render, get_object_or_404
 from django.forms import ModelForm
 from django.http import JsonResponse
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-import uuid
+from .models import Order, Car
+import random
+import string
+import json
+
+@csrf_exempt
+def create_order(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        car_id = data['carID']
+        start_date = data['startDate']
+        end_date = data['endDate']
+        duration = data['duration']
+
+        # Retrieve the Car object
+        car = Car.objects.get(pk=car_id)
+
+        # Generate a random order number
+        order_number = ''.join(random.choices(string.digits, k=8))
+
+        # Calculate the total (replace this with your own logic)
+        total = car.carRate * float(duration)
+
+        # Create the Order object
+        order = Order.objects.create(
+            orderNumber=order_number,
+            userid=request.user,
+            carid=car,
+            carName=car.carName,
+            startDate=start_date,
+            endDate=end_date,
+            total=total,
+            duration=duration,
+        )
+
+        return JsonResponse({'success': True, 'orderNumber': order.orderNumber})
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+
 from django.shortcuts import render, redirect
-from .forms import OrderForm 
 from .forms import CarForm
 
 def get_username(request):
