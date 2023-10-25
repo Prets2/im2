@@ -23,52 +23,6 @@ from django.shortcuts import render, redirect
 from .forms import OrderForm 
 from .forms import CarForm
 
-def create_order(request):
-    if request.method == 'POST':
-        order_form = OrderForm(request.POST)
-        if order_form.is_valid():
-            order = order_form.save(commit=False)  # Create a new Order instance
-            order.user = request.user  # Assuming you have a logged-in user
-            order.duration = (order.end_date - order.start_date).days  # Calculate the duration
-            order.total = order.duration * order.car.carRate  # Calculate the total price
-            order.orderNumber = generate_unique_order_number()  # Define the unique order number (implement this function)
-            order.save()
-
-            return JsonResponse({'success': True, 'message': 'Order created successfully'})
-        else:
-            # Handle form validation errors
-            return JsonResponse({'success': False, 'message': 'Invalid form data'})
-
-<<<<<<< HEAD
-    return JsonResponse({'success': False, 'message': 'Invalid request method'})
-=======
-        # Create the Order instance
-        order = Order(
-            orderNumber=order_number,
-            userid=request.user,  # Assuming you have a logged-in user
-            carid=car.CarID,
-            carName=car.carName,
-            startDate=start_date,
-            endDate=end_date,
-            total=total,
-            duration=duration
-        )
-
-        order.save()
-
-        return JsonResponse({'success': True, 'message': 'Order created successfully'})
-    else:
-        return JsonResponse({'success': False, 'message': 'Invalid request method'})
-        
-def generate_unique_order_number():
-    # Generate a unique order number using a UUID
-    order_number = str(uuid.uuid4()).replace("-", "")[
-        :8
-    ]  # You can adjust the length as needed
-    return order_number
-
->>>>>>> bc6d96dc433a631e50df3bee248770859c1e897b
-
 def get_username(request):
     if request.user.is_authenticated:
         username = request.user.username
@@ -110,17 +64,10 @@ def car_management(request):
     # Fetch the list of cars from the database
     cars = Car.objects.all()
     context = {
-<<<<<<< HEAD
-        'user_is_admin': user_is_admin,
-        'cars': cars,  # Pass the list of cars to the template
-    }
-    return render(request, "RentACar/carman.html", context)
-=======
         "user_is_admin": user_is_admin,
     }
     return render(request, "RentACar/carman.html", context)
 
->>>>>>> bc6d96dc433a631e50df3bee248770859c1e897b
 
 def cars(request):
     car = Car.objects.all()
@@ -203,9 +150,6 @@ def add_car(request):
             return redirect("car_management")
     else:
         form = CarForm()
-<<<<<<< HEAD
-    return render(request, 'RentACar/add_car.html', {'form': form})
-=======
 
     return render(request, "add_car.html", {"form": form})
 
@@ -232,4 +176,3 @@ def delete_car(request, car_id):
         return redirect("car_management")
 
     return render(request, "delete_car.html", {"car": car})
->>>>>>> bc6d96dc433a631e50df3bee248770859c1e897b
