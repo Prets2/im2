@@ -185,6 +185,7 @@
 <script>
     var csrfToken = "{{ csrf_token }}";
 </script>
+
 <body>
     <div class="car-details">
         <h2>{{ car.carName }}</h2>
@@ -290,7 +291,12 @@
                         modal.style.display = 'none';
                     }
                 });
+
             });
+
+
+            startDateInput.addEventListener('change', disableReservedDates);
+            endDateInput.addEventListener('change', disableReservedDates);
         });
     </script>
 </body>
