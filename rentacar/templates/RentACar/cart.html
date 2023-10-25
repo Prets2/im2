@@ -264,32 +264,7 @@
                 });
 
                 agreeButton.addEventListener('click', function () {
-                    if (agreeCheckbox.checked) {
-                        fetch('http://127.0.0.1:8000/create_order/', {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRFToken': csrfToken,
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                carID: 1,
-                                startDate: startDateInput.value,
-                                endDate: endDateInput.value,
-                                duration: durationInput.value,
-                            }),
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    alert('Order created successfully');
-                                } else {
-                                    alert('Failed to create the order');
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                            });
-                    }
+                
                 });
             });
         });

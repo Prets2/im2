@@ -13,58 +13,15 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.shortcuts import render
 from django.shortcuts import render
-from django.http import JsonResponse
 from .models import Car, Order
 from django.shortcuts import render, get_object_or_404
 from django.forms import ModelForm
-<<<<<<< HEAD
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import uuid
-import random
-import string
-
-def create_order(request):
-    if request.method == 'POST':
-        car_id = request.POST.get('carID')
-        start_date = request.POST.get('startDate')
-        end_date = request.POST.get('endDate')
-        duration = request.POST.get('duration')
-
-        # Calculate the total price based on car rate and duration
-        car = get_object_or_404(Car,car_id)
-        total = 1000
-        order_number = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
         
 
-        # Create the Order instance
-        order = Order(
-            orderNumber=order_number,
-            userid=request.user,  # Assuming you have a logged-in user
-            carid=car.CarID,
-            carName=car.carName,
-            startDate=start_date,
-            endDate=end_date,
-            total=total,
-            duration=duration
-        )
-
-        order.save()
-
-        return JsonResponse({'success': True, 'message': 'Order created successfully'})
-    else:
-        return JsonResponse({'success': False, 'message': 'Invalid request method'})
-        
-def generate_unique_order_number():
-    # Generate a unique order number using a UUID
-    order_number = str(uuid.uuid4()).replace("-", "")[
-        :8
-    ]  # You can adjust the length as needed
-    return order_number
-
-=======
 from .forms import CarForm
->>>>>>> f286d568a705ede3bc90013470a0f6c7900b81b4
 
 def get_username(request):
     if request.user.is_authenticated:
@@ -107,17 +64,10 @@ def car_management(request):
     # Fetch the list of cars from the database
     cars = Car.objects.all()
     context = {
-<<<<<<< HEAD
-        "user_is_admin": user_is_admin,
-    }
-    return render(request, "RentACar/carman.html", context)
-
-=======
         'user_is_admin': user_is_admin,
         'cars': cars,  # Pass the list of cars to the template
     }
     return render(request, "RentACar/carman.html", context)
->>>>>>> f286d568a705ede3bc90013470a0f6c7900b81b4
 
 def cars(request):
     car = Car.objects.all()
@@ -200,33 +150,4 @@ def add_car(request):
             return redirect("car_management")
     else:
         form = CarForm()
-<<<<<<< HEAD
-
-    return render(request, "add_car.html", {"form": form})
-
-
-@login_required
-def edit_car(request, car_id):
-    car = get_object_or_404(Car, id=car_id)
-    if request.method == "POST":
-        form = CarForm(request.POST, instance=car)
-        if form.is_valid():
-            form.save()
-            return redirect("car_management")
-    else:
-        form = CarForm(instance=car)
-
-    return render(request, "edit_car.html", {"form": form})
-
-
-@login_required
-def delete_car(request, car_id):
-    car = get_object_or_404(Car, id=car_id)
-    if request.method == "POST":
-        car.delete()
-        return redirect("car_management")
-
-    return render(request, "delete_car.html", {"car": car})
-=======
     return render(request, 'RentACar/add_car.html', {'form': form})
->>>>>>> f286d568a705ede3bc90013470a0f6c7900b81b4

@@ -18,15 +18,9 @@ urlpatterns = [
     path('terms_and_conditions/', views.terms_and_conditions, name='terms_and_conditions'),
     path('api/get-username/', views.get_username, name='get-username'),
     path('cars/<int:car_id>/', views.car_detail, name='car_detail'),
-    path('cart/<int:car_id>/', views.cart, name='cart'),
+    path('checkout/<int:car_id>/', views.cart, name='cart'),
     path('carman.html', views.car_management, name='car_management'),
     path('car/add/', views.add_car, name='add_car'),
-<<<<<<< HEAD
-    path('car/edit/<int:car_id>/', views.edit_car, name='edit_car'),
-    path('car/delete/<int:car_id>/', views.delete_car, name='delete_car'),
-    path('create_order/', views.create_order, name='create_order'),
-=======
->>>>>>> f286d568a705ede3bc90013470a0f6c7900b81b4
 ]
 
 if settings.DEBUG:
