@@ -187,6 +187,35 @@
 </script>
 
 <body>
+    <header>
+        <nav class="navbar">
+            <div class="navdiv">
+                <div class="brand"><a href="{% url 'home' %}">
+                        <h1><span class="white-text">RENTA</span><span class="red-text">CAR</span></h1>
+                    </a></div>
+                <div class="centered-text" style="text-align: left;">
+                    {% if user.is_authenticated %}
+                    <h2>Welcome, {{ user.username }}</h2>
+                    {% endif %}
+                </div>
+                <ul>
+                    <li><a href="{% url 'cars' %}">Cars</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    {% if user_is_admin %}
+                    <li><a href="{% url 'car_management' %}">Edit cars</a></li>
+                    {% endif %}
+
+                    {% if user.is_authenticated %}
+                    <button><a href="{% url 'logout' %}">Logout</a></button>
+                    {% else %}
+                    <button><a href="{% url 'login' %}">Login</a></button>
+                    {% endif %}
+                </ul>
+        </nav>
+        </ul>
+        </div>
+        </nav>
+    </header>
     <div class="car-details">
         <h2>{{ car.carName }}</h2>
         {% if car.carPic %}
@@ -221,15 +250,12 @@
     <div id="successModal" class="modal">
         <div class="modal-content">
             <h2>Success!</h2>
-            <p>You have successfully checked out. Here are your order details:</p>
+            <p>You have successfully checked out. Here is your order number. Please present this to our store</p>
             <p>Order Number: <span id="orderNumber"></span></p>
-            <p>Car Name: <span id="carName"></span></p>
-            <p>Start Date: <span id="startDate"></span></p>
-            <p>End Date: <span id="endDate"></span></p>
-            <p>Total: ₱<span id="total"></span></p>
+            <button id="returnToCarList">Return to Car Listing</button>
         </div>
     </div>
-    
+
     <!-- Your existing HTML content here -->
 
     <script>
@@ -241,7 +267,11 @@
             const modal = document.getElementById('termsModal');
             const agreeButton = document.getElementById('agreeButton');
             const agreeCheckbox = document.getElementById('agreeCheckbox');
+            const returnToCarListButton = document.getElementById('returnToCarList');
 
+            returnToCarListButton.addEventListener('click', function () {
+                window.location.href = '{% url "cars" %}';
+            });
             function calculateDuration() {
                 const startDate = new Date(startDateInput.value);
                 const endDate = new Date(endDateInput.value);
@@ -294,7 +324,16 @@
                             .then(response => response.json())
                             .then(data => {
                                 // Handle the response from the server
-                                console.log(data);
+                                const successModal = document.getElementById('successModal');
+                                const orderNumberSpan = document.getElementById('orderNumber');
+
+
+                                // Update modal content with order details
+                                orderNumberSpan.textContent = data.orderNumber;
+
+
+                                // Show the success modal
+                                successModal.style.display = 'block';
                             })
                             .catch(error => console.error('Error:', error));
 
