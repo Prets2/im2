@@ -12,6 +12,8 @@ class Car(models.Model):
     carRate = models.FloatField()
     carPic = models.ImageField(upload_to='car_pics/', blank=True, null=True)
     status = models.IntegerField(default=0)
+    
+    availability = models.IntegerField(default=0)
 
     def __str__(self):
         return self.carName

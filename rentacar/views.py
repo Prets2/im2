@@ -16,7 +16,10 @@ from django.shortcuts import render
 from .models import Car, Order
 from django.shortcuts import render, get_object_or_404
 from django.forms import ModelForm
+<<<<<<< HEAD
+=======
 from django.http import JsonResponse
+>>>>>>> 4641a7022ab12a3603091b466135ef00958786cf
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Order, Car
@@ -62,8 +65,11 @@ def create_order(request):
     else:
         return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
+<<<<<<< HEAD
+=======
 
 from django.shortcuts import render, redirect
+>>>>>>> 4641a7022ab12a3603091b466135ef00958786cf
 from .forms import CarForm
 
 def get_username(request):
@@ -107,11 +113,18 @@ def car_management(request):
     # Fetch the list of cars from the database
     cars = Car.objects.all()
     context = {
+<<<<<<< HEAD
+        'user_is_admin': user_is_admin,
+        'cars': cars,  # Pass the list of cars to the template
+    }
+    return render(request, "RentACar/carman.html", context)
+=======
         "user_is_admin": user_is_admin,
         "cars": cars,  # Add the 'cars' context variable
     }
     return render(request, "RentACar/carman.html", context)
 
+>>>>>>> 4641a7022ab12a3603091b466135ef00958786cf
 
 def cars(request):
     car = Car.objects.all()
@@ -187,6 +200,10 @@ class CarForm(ModelForm):
 
 from .forms import CarForm  # Import the CarForm
 
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Car
+from .forms import CarForm
+
 @login_required
 
 def add_car(request):
@@ -205,6 +222,8 @@ def add_car(request):
 
     return render(request, "RentACar/add_car.html", {"form": form})
 
+
+
 def update_car(request, car_id):
     # Retrieve the car object from the database
     car = get_object_or_404(Car, CarID=car_id)
@@ -212,8 +231,15 @@ def update_car(request, car_id):
     if request.method == "POST":
         form = CarForm(request.POST, request.FILES, instance=car)
         if form.is_valid():
-            form.save()  # Save the updated data to the database
+            car = form.save()  # Save the updated data to the database
+
+            # Update availability (status) based on the form's status field
+            if 'status' in form.cleaned_data:
+                car.status = 0 if form.cleaned_data['status'] == 0 else 1
+                car.save()
+
             return redirect('car_management')  # Redirect to the car management page
+
     else:
         form = CarForm(instance=car)
 
@@ -222,3 +248,18 @@ def update_car(request, car_id):
         'car': car,
     }
     return render(request, 'RentACar/update_car.html', context)
+
+
+def delete_car(request, car_id):
+<<<<<<< HEAD
+    car = get_object_or_404(Car, id=car_id)
+    if request.method == "POST":
+        car.delete()
+        return redirect("car_management")
+
+    return render(request, "delete_car.html", {"car": car})
+=======
+    car = get_object_or_404(Car, pk=car_id)
+    car.delete()
+    return redirect('car_management')
+>>>>>>> 4641a7022ab12a3603091b466135ef00958786cf

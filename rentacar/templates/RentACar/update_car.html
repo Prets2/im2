@@ -156,7 +156,6 @@
     <h1>Edit Car Details</h1>
     <div class="section">
         <div class="box" style="background-image: url('{{ car.carPic.url }}');"></div>
-        </div>
         <div class="box">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -180,12 +179,18 @@
                     <label for="{{ form.carPic.id_for_label }}">Car Image:</label>
                     {{ form.carPic }}
                 </div>
-                <div class="button-container">
+                <div class="form-group">
+                    <label for="{{ form.status.id_for_label }}">Availability:</label>
+                    <select name="{{ form.status.name }}" id="{{ form.status.id_for_label }}">
+                        <option value="0" {% if form.status.value == 0 %}selected{% endif %}>Yes</option>
+                        <option value="1" {% if form.status.value == 1 %}selected{% endif %}>No</option>
+                    </select>
+                </div>
+                <div class="button-container" style="margin-top: 150px;" > <!-- Added margin-top here -->
                     <button type="submit" class="rent-button">Update Car</button>
                 </div>
-            </form>
+                </form>
         </div>
     </div>
-
 </body>
 </html>
