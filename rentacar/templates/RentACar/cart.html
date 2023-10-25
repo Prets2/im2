@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% load static %}
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,8 +13,10 @@
         }
 
         body {
-            margin: 0; /* Remove default margin */
-            padding: 0; /* Remove default padding */
+            margin: 0;
+            /* Remove default margin */
+            padding: 0;
+            /* Remove default padding */
             background-image: url('../images/landing.jpg');
             background-repeat: no-repeat;
             background-size: cover;
@@ -23,23 +26,27 @@
         .navbar {
             background: black;
             font-family: calibri;
-            padding: 0; /* Remove padding */
-            margin: 0; /* Remove margin */
+            padding: 0;
+            /* Remove padding */
+            margin: 0;
+            /* Remove margin */
         }
 
         .navdiv {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 5px 15px; /* Adjust the padding to make it smaller */
+            padding: 5px 15px;
+            /* Adjust the padding to make it smaller */
         }
 
         .brand a {
-            font-size: 15px; /* Reduce the font size for the brand */
+            font-size: 15px;
+            /* Reduce the font size for the brand */
             font-weight: 600;
             color: white;
         }
-        
+
         nav li {
             list-style: none;
             display: inline-block;
@@ -47,23 +54,28 @@
 
         nav li a {
             color: white;
-            font-size: 16px; /* Reduce the font size for the links */
+            font-size: 16px;
+            /* Reduce the font size for the links */
             font-weight: bold;
-            margin-right: 20px; /* Adjust the margin as needed */
+            margin-right: 20px;
+            /* Adjust the margin as needed */
         }
 
         nav button {
             background-color: black;
             margin-left: 10px;
             border-radius: 10px;
-            padding: 8px; /* Adjust the padding for buttons */
-            width: 80px; /* Adjust the width for buttons */
+            padding: 8px;
+            /* Adjust the padding for buttons */
+            width: 80px;
+            /* Adjust the width for buttons */
         }
 
         nav button a {
             color: white;
             font-weight: bold;
-            font-size: 14px; /* Reduce the font size for button text */
+            font-size: 14px;
+            /* Reduce the font size for button text */
         }
 
         .red-text {
@@ -87,11 +99,13 @@
         }
 
         .box1 {
-            background-image: url('/static/RentACar/images/viosnew.png'); /* Replace with your image path */
+            background-image: url('/static/RentACar/images/viosnew.png');
+            /* Replace with your image path */
         }
 
         .box2 {
-            background-image: url('/static/RentACar/images/ertiganew.png'); /* Replace with your image path */
+            background-image: url('/static/RentACar/images/ertiganew.png');
+            /* Replace with your image path */
         }
 
         .header-overlay {
@@ -103,6 +117,7 @@
             background: rgba(0, 0, 0, 0.5);
             z-index: 1;
         }
+
         .duration-form {
             margin: 20px;
         }
@@ -164,74 +179,121 @@
             padding: 10px 20px;
             font-weight: bold;
             cursor: pointer;
-        }   
+        }
     </style>
 </head>
+
 <body>
-    <di v class="car-details">
+    <div class="car-details">
         <h2>{{ car.carName }}</h2>
         {% if car.carPic %}
-            <img src="{{ car.carPic.url }}" alt="{{ car.carName }}" width="300" height="200">
+        <img src="{{ car.carPic.url }}" alt="{{ car.carName }}" width="300" height="200">
         {% endif %}
         <p>Car Rate: ₱{{ car.carRate }}</p>
     </div>
-    <div class="date-picker">
-        <label for="selectedDate">Select Date:</label>
-        <input type="date" id="selectedDate" required>
-    </div>
-        <form class="duration-form">
-            <label for="duration">Select Duration (in days):</label>
-            <input type="number" id="duration" name="duration" class="duration-input" min="1" value="1">
-            <button class="checkout-button" id="checkout-button">Checkout</button>
-        </form>
 
-        <div class="modal" id="termsModal">
-            <div class="modal-content">
-                <h3>Terms and Conditions</h3>
-                <p>Please read and accept our <a href="{% url 'terms_and_conditions' %}">Terms and Conditions</a>.</p>
-                
-                <!-- Checkbox to agree -->
-                <input type="checkbox" id="agreeCheckbox">
-                <label for="agreeCheckbox">I agree to the Terms and Conditions</label>
-                
-                <!-- "Agree and Continue" button -->
-                <button class="agree-button" id="agreeButton" disabled>Agree and Continue</button>
-            </div>
+    <div class="date-picker">
+        <label for="startDate">Select Start Date:</label>
+        <input type="date" id="startDate" required>
+    </div>
+    <div class="date-picker">
+        <label for="endDate">Select End Date:</label>
+        <input type="date" id="endDate" required> <!-- Make sure the id is "endDate" -->
+    </div>
+    <form class="duration-form">
+        <label for="duration">Duration (in days):</label>
+        <input type="number" id="duration" class="duration-input" readonly>
+        <button class="checkout-button" id="checkout-button">Checkout</button>
+    </form>
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
+            <h2>Terms and Conditions</h2>
+            <p>Please read and accept the terms and conditions to continue:</p>
+            <label>
+                <input type="checkbox" id="agreeCheckbox" /> I agree to the terms and conditions
+            </label>
+            <button class="checkout-button" id="agreeButton" disabled>Agree and Continue</button>
         </div>
-    
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const checkoutButton = document.getElementById('checkout-button');
-                const durationInput = document.getElementById('duration');
-                const modal = document.getElementById('termsModal');
-                const agreeButton = modal.querySelector('.agree-button');
-                const agreeCheckbox = document.getElementById('agreeCheckbox');
-    
-                checkoutButton.addEventListener('click', function(event) {
-                    event.preventDefault(); // Prevent the form from submitting
-    
-                    const carID = '{{ car.CarID }}';
-                    const duration = durationInput.value;
-    
-                    // Show the terms and conditions modal
-                    modal.style.display = 'block';
-    
-                    agreeCheckbox.addEventListener('change', function() {
-                        // Enable the "Agree and Continue" button when the checkbox is checked
-                        agreeButton.disabled = !agreeCheckbox.checked;
-                    });
-    
-                    agreeButton.addEventListener('click', function(event) {
-                        event.preventDefault(); // Prevent the link click
-    
-                        if (agreeCheckbox.checked) {
-                            // If the user agrees, navigate to the cart page
-                            window.location.href = `/cart/${carID}/?duration=${duration}`;
-                        }
-                    });
+    </div>
+
+    <!-- Your existing HTML content here -->
+
+    <script>
+        var csrfToken = "{{ csrf_token }}"; // Store the CSRF token in a JavaScript variable
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkoutButton = document.getElementById('checkout-button');
+            const startDateInput = document.getElementById('startDate');
+            const endDateInput = document.getElementById('endDate');
+            const durationInput = document.getElementById('duration');
+            const modal = document.getElementById('termsModal');
+            const agreeButton = document.getElementById('agreeButton');
+            const agreeCheckbox = document.getElementById('agreeCheckbox');
+            const errorMessage = document.getElementById('error-message');
+
+            function calculateDuration() {
+                const startDate = new Date(startDateInput.value);
+                const endDate = new Date(endDateInput.value);
+                if (!isNaN(startDate) && !isNaN(endDate)) {
+                    const durationInMilliseconds = endDate - startDate;
+                    const durationInDays = durationInMilliseconds / (1000 * 60 * 60 * 24); // Milliseconds to days
+                    durationInput.value = Math.max(durationInDays, 0).toFixed(0); // Ensure it's a non-negative integer
+                } else {
+                    durationInput.value = ''; // Clear the duration if the dates are invalid
+                }
+            }
+
+            startDateInput.addEventListener('change', calculateDuration);
+            endDateInput.addEventListener('change', calculateDuration);
+            calculateDuration();
+
+            checkoutButton.addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent the form from submitting
+
+                const carID = '{{ car.CarID }}';
+                const startDate = startDateInput.value;
+                const endDate = endDateInput.value;
+                const duration = durationInput.value;
+
+                // Show the terms and conditions modal
+                modal.style.display = 'block';
+
+                agreeCheckbox.addEventListener('change', function () {
+                    // Enable the "Agree and Continue" button when the checkbox is checked
+                    agreeButton.disabled = !agreeCheckbox.checked;
+                });
+
+                agreeButton.addEventListener('click', function () {
+                    if (agreeCheckbox.checked) {
+                        fetch('http://127.0.0.1:8000/create_order/', {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRFToken': csrfToken,
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                carID: 1,
+                                startDate: startDateInput.value,
+                                endDate: endDateInput.value,
+                                duration: durationInput.value,
+                            }),
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    alert('Order created successfully');
+                                } else {
+                                    alert('Failed to create the order');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                    }
                 });
             });
-        </script>
-    
+        });
+    </script>
 </body>
+
 </html>

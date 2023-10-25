@@ -9,7 +9,7 @@ class Car(models.Model):
     carName = models.CharField(max_length=255)
     carType = models.CharField(max_length=100)
     carDescription = models.TextField()
-    carRate = models.DecimalField(max_digits=10, decimal_places=2)
+    carRate = models.FloatField()
     carPic = models.ImageField(upload_to='car_pics/', blank=True, null=True)
     status = models.IntegerField(default=0)
 
@@ -24,8 +24,8 @@ class Order(models.Model):
     startDate = models.DateField(default=None)
     endDate = models.DateField(default=None)
     total = models.DecimalField(max_digits=10, decimal_places=2)
-    duration = models.DurationField()
+    duration = models.FloatField()  # Corrected to use DurationField
 
-def generate_order_number():
-    characters = string.digits + string.ascii_uppercase  # Include digits and uppercase letters
-    return ''.join(random.choice(characters) for _ in range(8))
+    def __str__(self):
+        return self.orderNumber
+
