@@ -22,6 +22,7 @@ from django.views.decorators.csrf import csrf_exempt
 import random
 import string
 import json
+from datetime import timedelta
 
 
 
@@ -55,6 +56,8 @@ def create_order(request):
             duration=duration,
         )
 
+        car.status = 1
+        car.save()
         return JsonResponse({'success': True, 'orderNumber': order.orderNumber})
     else:
         return JsonResponse({'success': False, 'error': 'Invalid request method'})
@@ -127,7 +130,25 @@ def cart(request, car_id):
     car = get_object_or_404(Car, CarID=car_id)
     return render(request, "RentACar/cart.html", {"car": car})
 
+def reserve(request, car_id):
+    car = get_object_or_404(Car, CarID=car_id)
+    return render(request, "RentACar/reserve.html", {"car": car})
 
+def get_reserved_dates(request):
+    if request.method == 'GET':
+        reserved_orders = Order.objects.values_list('startDate', 'endDate')
+        reserved_dates = []
+
+        for start_date, end_date in reserved_orders:
+            current_date = start_date
+            while current_date <= end_date:
+                reserved_dates.append(str(current_date))
+                current_date += timedelta(days=1)
+
+        return JsonResponse({'reservedDates': reserved_dates})
+    else:
+        return JsonResponse({'error': 'Invalid request method'})
+    
 class CustomLoginView(LoginView):
     template_name = "RentACar/login.html"
     redirect_authenticated_user = True
