@@ -153,3 +153,39 @@
             </div>
         </nav> 
     </header>
+    <h1>Edit Car Details</h1>
+    <div class="section">
+        <div class="box" style="background-image: url('{{ car.carPic.url }}');"></div>
+        </div>
+        <div class="box">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ form.carName.id_for_label }}">Car Name:</label>
+                    {{ form.carName }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.carType.id_for_label }}">Car Type:</label>
+                    {{ form.carType }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.carDescription.id_for_label }}">Car Description:</label>
+                    {{ form.carDescription }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.carRate.id_for_label }}">Car Rate:</label>
+                    {{ form.carRate }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.carPic.id_for_label }}">Car Image:</label>
+                    {{ form.carPic }}
+                </div>
+                <div class="button-container">
+                    <button type="submit" class="rent-button">Update Car</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

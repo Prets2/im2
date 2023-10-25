@@ -19,6 +19,7 @@ urlpatterns = [
     path('cart/<int:car_id>/', views.cart, name='cart'),
     path('carman.html', views.car_management, name='car_management'),
     path('car/add/', views.add_car, name='add_car'),
+    path('update_car/<int:car_id>/', views.update_car, name='update_car'),
     path('create_order/', views.create_order, name='create_order'),
 ]
 

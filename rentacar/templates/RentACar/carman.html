@@ -171,6 +171,7 @@
             <th>Car Type</th>
             <th>Car Description</th>
             <th>Car Rate</th>
+            <th>Update</th>
         </tr>
         {% for car in cars %}
         <tr>
@@ -178,6 +179,7 @@
             <td>{{ car.carType }}</td>
             <td style="text-align: justify;">{{ car.carDescription }}</td>
             <td>{{ car.carRate }}</td>
+            <td><a href="{% url 'update_car' car.CarID %}">Update</a></td>  <!-- Add the Update link -->
         </tr>
         {% endfor %}
     </table>
