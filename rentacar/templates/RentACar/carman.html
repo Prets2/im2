@@ -171,7 +171,7 @@
             <th>Car Type</th>
             <th>Car Description</th>
             <th>Car Rate</th>
-            <th>Update</th>
+            <th>Actions</th>
         </tr>
         {% for car in cars %}
         <tr>
@@ -179,7 +179,13 @@
             <td>{{ car.carType }}</td>
             <td style="text-align: justify;">{{ car.carDescription }}</td>
             <td>{{ car.carRate }}</td>
-            <td><a href="{% url 'update_car' car.CarID %}">Update</a></td>  <!-- Add the Update link -->
+            <td>
+                <a href="{% url 'update_car' car.CarID %}">Update</a>
+                <form action="{% url 'delete_car' car.CarID %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-button" onclick="return confirmDelete();">Delete</button>
+                </form>                
+            </td>
         </tr>
         {% endfor %}
     </table>
@@ -188,4 +194,9 @@
     {% endif %}
     <!-- Add any additional content or JavaScript at the end of the body -->
 </body>
+    <script>
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete?");
+        }
+    </script>
 </html>

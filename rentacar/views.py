@@ -218,3 +218,8 @@ def update_car(request, car_id):
         'car': car,
     }
     return render(request, 'RentACar/update_car.html', context)
+
+def delete_car(request, car_id):
+    car = get_object_or_404(Car, pk=car_id)
+    car.delete()
+    return redirect('car_management')
