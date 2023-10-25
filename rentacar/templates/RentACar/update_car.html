@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CARS</title>
+    <title>RENTACAR : Edit Car</title>
     <link rel="icon" href="{% static 'RentACar/images/favicon.jpg' %}" type="image/jpg">
     <link rel="stylesheet" type="text/css" href="{% static 'RentACar/css/car_list.css' %}">
     <style>
@@ -153,3 +153,44 @@
             </div>
         </nav> 
     </header>
+    <h1>Edit Car Details</h1>
+    <div class="section">
+        <div class="box" style="background-image: url('{{ car.carPic.url }}');"></div>
+        <div class="box">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="{{ form.carName.id_for_label }}">Car Name:</label>
+                    {{ form.carName }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.carType.id_for_label }}">Car Type:</label>
+                    {{ form.carType }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.carDescription.id_for_label }}">Car Description:</label>
+                    {{ form.carDescription }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.carRate.id_for_label }}">Car Rate:</label>
+                    {{ form.carRate }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.carPic.id_for_label }}">Car Image:</label>
+                    {{ form.carPic }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.status.id_for_label }}">Availability:</label>
+                    <select name="{{ form.status.name }}" id="{{ form.status.id_for_label }}">
+                        <option value="0" {% if form.status.value == 0 %}selected{% endif %}>Yes</option>
+                        <option value="1" {% if form.status.value == 1 %}selected{% endif %}>No</option>
+                    </select>
+                </div>
+                <div class="button-container" style="margin-top: 150px;" > <!-- Added margin-top here -->
+                    <button type="submit" class="rent-button">Update Car</button>
+                </div>
+                </form>
+        </div>
+    </div>
+</body>
+</html>

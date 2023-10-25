@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CARS</title>
+    <title>RENTACAR : Manage Cars</title>
     <link rel="icon" href="{% static 'RentACar/images/favicon.jpg' %}" type="image/jpg">
     <link rel="stylesheet" type="text/css" href="{% static 'RentACar/css/car_list.css' %}">
     <style>
@@ -84,6 +84,40 @@
             padding: 10px;
             text-align: left;
         }
+
+        /* Update font styles for the heading */
+    h1 {
+        font-size: 24px;
+        color: #ffffff; /* Darker color for better readability */
+    }
+
+    /* Style the table for better readability */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff; /* White background for the table */
+    }
+
+    th, td {
+        padding: 12px; /* Increased padding for better spacing */
+        text-align: left;
+    }
+
+    /* Style table header cells */
+    th {
+        background-color: #333; /* Dark background color for headers */
+        color: #fff; /* White text for headers */
+    }
+
+    /* Style table rows for alternating colors */
+    tr:nth-child(even) {
+        background-color: #f2f2f2; /* Light gray background for even rows */
+    }
+
+    /* Style table rows on hover for interactivity */
+    tr:hover {
+        background-color: #ddd; /* Slightly darker gray on hover */
+    }
     </style>
 
     <script>
@@ -137,13 +171,21 @@
             <th>Car Type</th>
             <th>Car Description</th>
             <th>Car Rate</th>
+            <th>Actions</th>
         </tr>
         {% for car in cars %}
         <tr>
             <td>{{ car.carName }}</td>
             <td>{{ car.carType }}</td>
-            <td>{{ car.carDescription }}</td>
+            <td style="text-align: justify;">{{ car.carDescription }}</td>
             <td>{{ car.carRate }}</td>
+            <td>
+                <a href="{% url 'update_car' car.CarID %}">Update</a>
+                <form action="{% url 'delete_car' car.CarID %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-button" onclick="return confirmDelete();">Delete</button>
+                </form>                
+            </td>
         </tr>
         {% endfor %}
     </table>
@@ -152,4 +194,9 @@
     {% endif %}
     <!-- Add any additional content or JavaScript at the end of the body -->
 </body>
+    <script>
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete?");
+        }
+    </script>
 </html>

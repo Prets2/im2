@@ -13,54 +13,63 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.shortcuts import render
 from django.shortcuts import render
-from django.http import JsonResponse
 from .models import Car, Order
 from django.shortcuts import render, get_object_or_404
 from django.forms import ModelForm
+<<<<<<< HEAD
+=======
+from django.http import JsonResponse
+>>>>>>> 4641a7022ab12a3603091b466135ef00958786cf
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-import uuid
+from .models import Order, Car
+from django.shortcuts import render, redirect, get_object_or_404
 import random
 import string
+import json
 
+@csrf_exempt
 def create_order(request):
     if request.method == 'POST':
-        car_id = request.POST.get('carID')
-        start_date = request.POST.get('startDate')
-        end_date = request.POST.get('endDate')
-        duration = request.POST.get('duration')
+        data = json.loads(request.body)
+        car_id = data['carID']
+        start_date = data['startDate']
+        end_date = data['endDate']
+        duration = data['duration']
 
-        # Calculate the total price based on car rate and duration
-        car = get_object_or_404(Car,car_id)
-        total = 1000
-        order_number = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
-        
+        # Retrieve the Car object
+        car = Car.objects.get(pk=car_id)
 
-        # Create the Order instance
-        order = Order(
+        # Generate a random order number
+        order_number = ''.join(random.choices(string.digits, k=8))
+
+        # Calculate the total (replace this with your own logic)
+        total = car.carRate * float(duration)
+
+        # Create the Order object
+        order = Order.objects.create(
             orderNumber=order_number,
-            userid=request.user,  # Assuming you have a logged-in user
-            carid=car.CarID,
+            userid=request.user,
+            carid=car,
             carName=car.carName,
             startDate=start_date,
             endDate=end_date,
             total=total,
-            duration=duration
+            duration=duration,
         )
 
-        order.save()
-
-        return JsonResponse({'success': True, 'message': 'Order created successfully'})
-    else:
-        return JsonResponse({'success': False, 'message': 'Invalid request method'})
+        car.status = 1
+        car.save()
         
-def generate_unique_order_number():
-    # Generate a unique order number using a UUID
-    order_number = str(uuid.uuid4()).replace("-", "")[
-        :8
-    ]  # You can adjust the length as needed
-    return order_number
+        return JsonResponse({'success': True, 'orderNumber': order.orderNumber})
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
+<<<<<<< HEAD
+=======
+
+from django.shortcuts import render, redirect
+>>>>>>> 4641a7022ab12a3603091b466135ef00958786cf
 from .forms import CarForm
 
 def get_username(request):
@@ -104,10 +113,18 @@ def car_management(request):
     # Fetch the list of cars from the database
     cars = Car.objects.all()
     context = {
+<<<<<<< HEAD
         'user_is_admin': user_is_admin,
         'cars': cars,  # Pass the list of cars to the template
     }
     return render(request, "RentACar/carman.html", context)
+=======
+        "user_is_admin": user_is_admin,
+        "cars": cars,  # Add the 'cars' context variable
+    }
+    return render(request, "RentACar/carman.html", context)
+
+>>>>>>> 4641a7022ab12a3603091b466135ef00958786cf
 
 def cars(request):
     car = Car.objects.all()
@@ -181,38 +198,67 @@ class CarForm(ModelForm):
         fields = ["carName", "carType", "carDescription", "carRate"]
 
 
+from .forms import CarForm  # Import the CarForm
+
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Car
+from .forms import CarForm
+
 @login_required
 def add_car(request):
     if request.method == "POST":
         form = CarForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            car = form.save(commit=False)  # Create a car object but don't save it yet
+            car.save()  # Save the car object to generate a CarID
+            # Handle the image file upload
+            if 'carImage' in request.FILES:
+                car.carPic = request.FILES['carImage']
+                car.save()
             return redirect("car_management")
     else:
         form = CarForm()
 
-    return render(request, "add_car.html", {"form": form})
+    return render(request, "RentACar/add_car.html", {"form": form})
 
 
-@login_required
-def edit_car(request, car_id):
-    car = get_object_or_404(Car, id=car_id)
+
+def update_car(request, car_id):
+    # Retrieve the car object from the database
+    car = get_object_or_404(Car, CarID=car_id)
+
     if request.method == "POST":
-        form = CarForm(request.POST, instance=car)
+        form = CarForm(request.POST, request.FILES, instance=car)
         if form.is_valid():
-            form.save()
-            return redirect("car_management")
+            car = form.save()  # Save the updated data to the database
+
+            # Update availability (status) based on the form's status field
+            if 'status' in form.cleaned_data:
+                car.status = 0 if form.cleaned_data['status'] == 0 else 1
+                car.save()
+
+            return redirect('car_management')  # Redirect to the car management page
+
     else:
         form = CarForm(instance=car)
 
-    return render(request, "edit_car.html", {"form": form})
+    context = {
+        'form': form,
+        'car': car,
+    }
+    return render(request, 'RentACar/update_car.html', context)
 
 
-@login_required
 def delete_car(request, car_id):
+<<<<<<< HEAD
     car = get_object_or_404(Car, id=car_id)
     if request.method == "POST":
         car.delete()
         return redirect("car_management")
 
     return render(request, "delete_car.html", {"car": car})
+=======
+    car = get_object_or_404(Car, pk=car_id)
+    car.delete()
+    return redirect('car_management')
+>>>>>>> 4641a7022ab12a3603091b466135ef00958786cf

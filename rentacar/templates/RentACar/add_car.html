@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CARS</title>
+    <title>RENTACAR : Add Car</title>
     <link rel="icon" href="{% static 'RentACar/images/favicon.jpg' %}" type="image/jpg">
     <link rel="stylesheet" type="text/css" href="{% static 'RentACar/css/car_list.css' %}">
     <style>
@@ -206,23 +206,26 @@
     </header>
 
     <!-- Add this form to your add_car.html template -->
-    <form method="post" enctype="multipart/form-data">  <!-- Add enctype attribute -->
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <label for="carName">Car Name:</label>
         <input type="text" id="carName" name="carName" required>
-    
+        
         <label for="carType">Car Type:</label>
         <input type="text" id="carType" name="carType" required>
-    
+        
         <label for="carDescription">Car Description:</label>
         <textarea id="carDescription" name="carDescription" required></textarea>
-    
+        
         <label for="carRate">Car Rate:</label>
         <input type="number" id="carRate" name="carRate" required>
-    
-        <label for="carImage">Car Picture:</label>
-        <input type="file" id="carImage" name="carPic" accept="image/*" required>  <!-- Update name attribute to 'carPic' -->
-    
+        
+        <!-- Add the 'status' field with a default value of 0 (available) -->
+        <input type="hidden" id="status" name="status" value="0">
+
+        <label for="carPic">Car Picture:</label>
+        <input type="file" id="carPic" name="carPic" accept="image/*" required>
+        
         <button type="submit">Add Car</button>
     </form>
     
