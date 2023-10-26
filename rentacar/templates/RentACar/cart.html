@@ -240,7 +240,7 @@
     <div id="termsModal" class="modal">
         <div class="modal-content">
             <h2>Terms and Conditions</h2>
-            <p>Please read and accept the terms and conditions to continue:</p>
+            <p>Please read and accept the <a href="{% url 'terms_and_conditions' %}">terms and conditions</a> to continue:</p>
             <label>
                 <input type="checkbox" id="agreeCheckbox" /> I agree to the terms and conditions
             </label>
@@ -337,8 +337,6 @@ function checkAvailability(carID, startDate, endDate, duration) {
     })
     .catch(error => console.error('Error:', error));
 }
-
-    
             // Function to create an order
             function createOrder(carID, startDate, endDate, duration) {
                 const csrftoken = csrfToken; // Make sure you have this variable
