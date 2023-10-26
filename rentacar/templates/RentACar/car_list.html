@@ -5,12 +5,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>RENTACAR : Cars</title>
+    <title>RENTACAR: Cars</title>
     <link rel="icon" href="{% static 'RentACar/images/favicon.jpg' %}" type="image/jpg">
     <link rel="stylesheet" type="text/css" href="{% static 'RentACar/css/car_list.css' %}">
     <style>
         * {
             text-decoration: none;
+        }
+
+        .car-image {
+            width: 400px; /* Adjust the desired width */
+            height: auto; /* To maintain aspect ratio */
         }
 
         body {
@@ -22,6 +27,7 @@
             background-repeat: no-repeat;
             background-size: cover;
             background-color: #1C1C1C;
+            font-family: 'Montserrat', sans-serif; /* Use Montserrat font for the whole body */
         }
 
         .navbar {
@@ -78,8 +84,8 @@
 
         .not-available-overlay {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 30%; /* Adjust the vertical position as needed */
+            left: 30%;
             transform: translate(-50%, -50%);
             color: #fff;
             font-size: 20px;
@@ -142,7 +148,7 @@
             transition: background-color 0.3s;
             margin: 0 5px;
         }
-        
+
         .reserve-button {
             background-color: #f5030f;
             color: #fff;
@@ -225,9 +231,13 @@
                     <img src="{{ car.carPic.url }}" class="car-image {% if car.status == 1 %}blur{% endif %}">
                     <div class="button-container">
                         {% if car.status != 1 %}
-                            <button class="rent-button" data-carid="{{ car.CarID }}">View</button>
+                            <div class="action-buttons">
+                                <button class="rent-button" data-carid="{{ car.CarID }}">Rent</button>
+                            </div>
                         {% else %}
-                            <button class="reserve-button" data-carid="{{ car.CarID }}">Reserve</button>
+                            <div class="action-buttons">
+                                <button class="reserve-button" data-carid="{{ car.CarID }}">Reserve</button>
+                            </div>
                         {% endif %}
                     </div>
                 </div>
