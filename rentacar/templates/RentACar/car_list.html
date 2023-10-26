@@ -13,6 +13,11 @@
             text-decoration: none;
         }
 
+        .car-image {
+            width: 400px; /* Adjust the desired width */
+            height: auto; /* To maintain aspect ratio */
+        }
+
         body {
             margin: 0;
             /* Remove default margin */
@@ -213,7 +218,7 @@
         </nav>
     </header>
 
-    <div class="section">
+     <div class="section">
         {% for car in cars %}
         <div class="box box{{ forloop.counter }}">
             <div class="header-overlay"></div>
@@ -236,5 +241,4 @@
         {% endfor %}
     </div>
 </body>
-
 </html>
