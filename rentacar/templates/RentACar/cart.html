@@ -268,10 +268,11 @@
             const agreeButton = document.getElementById('agreeButton');
             const agreeCheckbox = document.getElementById('agreeCheckbox');
             const returnToCarListButton = document.getElementById('returnToCarList');
-
+    
             returnToCarListButton.addEventListener('click', function () {
                 window.location.href = '{% url "cars" %}';
             });
+    
             function calculateDuration() {
                 const startDate = new Date(startDateInput.value);
                 const endDate = new Date(endDateInput.value);
@@ -283,68 +284,94 @@
                     durationInput.value = '';
                 }
             }
-
+    
             startDateInput.addEventListener('change', calculateDuration);
             endDateInput.addEventListener('change', calculateDuration);
             calculateDuration();
+    
+            
+        checkoutButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            const carID = '{{ car.CarID }}';
+            const startDate = startDateInput.value;
+            const endDate = endDateInput.value;
+            const duration = durationInput.value;
 
-            checkoutButton.addEventListener('click', function (event) {
-                event.preventDefault();
-                const carID = '{{ car.CarID }}';
-                const startDate = startDateInput.value;
-                const endDate = endDateInput.value;
-                const duration = durationInput.value;
+            // Check car availability before showing the terms and conditions modal
+            checkAvailability(carID, startDate, endDate, duration);
+        });
 
-                // Show the terms and conditions modal
-                modal.style.display = 'block';
+        // Function to check car availability
+        function checkAvailability(carID, startDate, endDate, duration) {
+            fetch('/check_availability/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                },
+                body: JSON.stringify({
+                    carID: carID,
+                    startDate: startDate,
+                    endDate: endDate,
+                    duration: duration,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.available) {
+                    // Car is available, show the terms and conditions modal
+                    modal.style.display = 'block';
+                    agreeCheckbox.addEventListener('change', function () {
+                        agreeButton.disabled = !agreeCheckbox.checked;
+                    });
 
-                agreeCheckbox.addEventListener('change', function () {
-                    agreeButton.disabled = !agreeCheckbox.checked;
-                });
+                    agreeButton.addEventListener('click', function () {
+                        if (agreeCheckbox.checked) {
+                            // Continue with the reservation
+                            createOrder(carID, startDate, endDate, duration);
+                        }
+                    });
+                } else {
+                    // Display an error message if the selected date range is not available
+                    alert('Selected date range is not available. Please choose another date.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
 
-                agreeButton.addEventListener('click', function () {
-                    if (agreeCheckbox.checked) {
-                        // Send a POST request to the server to create an Order
-                        const csrftoken = csrfToken; // Make sure you have this variable
-                        const orderData = {
-                            carID: carID,
-                            startDate: startDate,
-                            endDate: endDate,
-                            duration: duration,
-                        };
-
-                        fetch('/create_order/', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRFToken': csrftoken,
-                            },
-                            body: JSON.stringify(orderData),
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                // Handle the response from the server
-                                const successModal = document.getElementById('successModal');
-                                const orderNumberSpan = document.getElementById('orderNumber');
-
-
-                                // Update modal content with order details
-                                orderNumberSpan.textContent = data.orderNumber;
-
-
-                                // Show the success modal
-                                successModal.style.display = 'block';
-                            })
-                            .catch(error => console.error('Error:', error));
-
-                        // Close the modal
-                        modal.style.display = 'none';
-                    }
-                });
-
-            });
+    
+            // Function to create an order
+            function createOrder(carID, startDate, endDate, duration) {
+                const csrftoken = csrfToken; // Make sure you have this variable
+                const orderData = {
+                    carID: carID,
+                    startDate: startDate,
+                    endDate: endDate,
+                    duration: duration,
+                };
+    
+                fetch('/create_order/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken,
+                    },
+                    body: JSON.stringify(orderData),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const successModal = document.getElementById('successModal');
+                    const orderNumberSpan = document.getElementById('orderNumber');
+                    orderNumberSpan.textContent = data.orderNumber;
+                    successModal.style.display = 'block';
+                })
+                .catch(error => console.error('Error:', error));
+    
+                modal.style.display = 'none';
+            }
         });
     </script>
+    
 </body>
 
-</html>
+</html> 
