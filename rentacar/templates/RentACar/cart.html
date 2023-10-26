@@ -290,54 +290,53 @@
             calculateDuration();
     
             
-        checkoutButton.addEventListener('click', function (event) {
-            event.preventDefault();
-            const carID = '{{ car.CarID }}';
-            const startDate = startDateInput.value;
-            const endDate = endDateInput.value;
-            const duration = durationInput.value;
+            checkoutButton.addEventListener('click', function (event) {
+    event.preventDefault();
+    const carID = '{{ car.CarID }}';
+    const startDate = startDateInput.value;
+    const endDate = endDateInput.value;
+    const duration = durationInput.value;
 
-            // Check car availability before showing the terms and conditions modal
-            checkAvailability(carID, startDate, endDate, duration);
-        });
+    // Check car availability before showing the terms and conditions modal
+    checkAvailability(carID, startDate, endDate, duration);
+});
 
-        // Function to check car availability
-        function checkAvailability(carID, startDate, endDate, duration) {
-            fetch('/check_availability/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrfToken,
-                },
-                body: JSON.stringify({
-                    carID: carID,
-                    startDate: startDate,
-                    endDate: endDate,
-                    duration: duration,
-                }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.available) {
-                    // Car is available, show the terms and conditions modal
-                    modal.style.display = 'block';
-                    agreeCheckbox.addEventListener('change', function () {
-                        agreeButton.disabled = !agreeCheckbox.checked;
-                    });
+// Function to check car availability
+function checkAvailability(carID, startDate, endDate, duration) {
+    fetch('/check_availability/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+        },
+        body: JSON.stringify({
+            carID: carID,
+            startDate: startDate,
+            endDate: endDate,
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.available) {
+            // Car is available, show the terms and conditions modal
+            modal.style.display = 'block';
+            agreeCheckbox.addEventListener('change', function () {
+                agreeButton.disabled = !agreeCheckbox.checked;
+            });
 
-                    agreeButton.addEventListener('click', function () {
-                        if (agreeCheckbox.checked) {
-                            // Continue with the reservation
-                            createOrder(carID, startDate, endDate, duration);
-                        }
-                    });
-                } else {
-                    // Display an error message if the selected date range is not available
-                    alert('Selected date range is not available. Please choose another date.');
+            agreeButton.addEventListener('click', function () {
+                if (agreeCheckbox.checked) {
+                    // Continue with the reservation
+                    createOrder(carID, startDate, endDate, duration);
                 }
-            })
-            .catch(error => console.error('Error:', error));
+            });
+        } else {
+            // Display an error message if the selected date range is not available
+            alert(data.message);
         }
+    })
+    .catch(error => console.error('Error:', error));
+}
 
     
             // Function to create an order

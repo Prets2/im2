@@ -133,15 +133,27 @@ def check_availability(request):
         car_id = data['carID']
         start_date = data['startDate']
         end_date = data['endDate']
-        duration = data['duration']
 
-        # Add your logic to check car availability here
-        # You can query the database to see if the selected dates are available
+        # Convert start_date and end_date to datetime objects
+        start_date = datetime.strptime(start_date, "%Y-%m-%d")
+        end_date = datetime.strptime(end_date, "%Y-%m-%d")
 
-        # Replace the following with your availability check logic
-        is_available = True  # Modify this based on your availability check
+        # Check for overlapping reservations
+        overlapping_reservations = Order.objects.filter(
+            carid=car_id,
+            startDate__lte=end_date,
+            endDate__gte=start_date
+        )
 
-        return JsonResponse({'available': is_available})
+        if overlapping_reservations.exists():
+            is_available = False
+            conflicting_reservation = overlapping_reservations.first()
+            message = f"Car is not available during the selected dates. It's reserved from {conflicting_reservation.startDate} to {conflicting_reservation.endDate}."
+        else:
+            is_available = True
+            message = "Car is available during the selected dates."
+
+        return JsonResponse({'available': is_available, 'message': message})
 
 def cart(request, car_id):
     car = get_object_or_404(Car, CarID=car_id)
