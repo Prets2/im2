@@ -17,10 +17,10 @@ from .models import Car, Order
 from django.shortcuts import render, get_object_or_404
 from django.forms import ModelForm
 from django.http import JsonResponse
-from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Order, Car
 from django.shortcuts import render, redirect, get_object_or_404
+from datetime import datetime
 import random
 import string
 import json
@@ -126,6 +126,23 @@ def carlists(request):
     return render(request, "RentACar/login.html")
 
 
+@csrf_exempt
+def check_availability(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        car_id = data['carID']
+        start_date = data['startDate']
+        end_date = data['endDate']
+        duration = data['duration']
+
+        # Add your logic to check car availability here
+        # You can query the database to see if the selected dates are available
+
+        # Replace the following with your availability check logic
+        is_available = True  # Modify this based on your availability check
+
+        return JsonResponse({'available': is_available})
+
 def cart(request, car_id):
     car = get_object_or_404(Car, CarID=car_id)
     return render(request, "RentACar/cart.html", {"car": car})
@@ -146,7 +163,9 @@ class CustomLoginView(LoginView):
 
 def car_detail(request, car_id):
     car = get_object_or_404(Car, CarID=car_id)
-    return render(request, "RentACar/car_detail.html", {"car": car})
+    status_text = "Rent" if car.status != 1 else "Reserve"
+    return render(request, "RentACar/car_detail.html", {"car": car, "status_text": status_text})
+
 
 
 def register(request):
@@ -242,3 +261,12 @@ def delete_car(request, car_id):
         return redirect("car_management")
 
     return render(request, "delete_car.html", {"car": car})
+
+from django.http import JsonResponse
+
+def reserve_car(request, car_id):
+    # Add your logic for reserving the car here
+    # You can use the car_id to identify the car being reserved
+    # After handling the reservation, you can redirect to the car_detail page
+    return redirect('car_detail', car_id=car_id)
+

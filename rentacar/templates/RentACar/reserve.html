@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CARS</title>
+    <title>RENTACAR: Reserve Car</title>
     <link rel="icon" href="{% static 'RentACar/images/favicon.jpg' %}" type="image/jpg">
     <style>
         * {
@@ -103,19 +103,46 @@
             background: rgba(0, 0, 0, 0.5);
             z-index: 1;
         }
+        #car-details {
+            display: none;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+        }
     </style>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const rentButtons = document.querySelectorAll('.rent-button');
+        document.addEventListener('DOMContentLoaded', function () {
+            const reserveButtons = document.querySelectorAll('.reserve-button');
+            const carDetailsContainer = document.getElementById('car-details');
     
-            rentButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const carID = this.dataset.carid;
-                    window.location.href = `/cart/${carID}/`;
+            reserveButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const carId = this.dataset.carid;
+    
+                    fetch(`/get_car_details/${carId}/`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const carImage = document.getElementById('car-image');
+                            const carPrice = document.getElementById('car-price');
+                            const carDescription = document.getElementById('car-description');
+    
+                            carImage.src = data.carImage;
+                            carPrice.textContent = `Price: ${data.carPrice}`;
+                            carDescription.textContent = data.carDescription;
+    
+                            carDetailsContainer.style.display = 'block';
+                        })
+                        .catch(error => console.error('Error:', error));
                 });
             });
         });
     </script>
+    
     
 </head>
 <body>
@@ -136,6 +163,23 @@
         </div>
     </nav>
 
+    <div class="car-details">
+        <!-- Car details go here, including the selected car's image, price, and description -->
+        <img src="{{ car.carPic.url }}" alt="{{ car.carName }}" width="300" height="200">
+        <h2>{{ car.carName }}</h2>
+        <p>{{ car.carDescription }}</p>
+        <p>Car Rate: ₱{{ car.carRate }}</p>
 
+        <!-- Reservation form goes here -->
+        <form method="post" action="{% url 'create_order' %}">
+            {% csrf_token %}
+            <input type="hidden" name="car_id" value="{{ car.CarID }}">
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date" required>
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date" name="end_date" required>
+            <button type="submit">Reserve</button>
+        </form>
+    </div>
 </body>
 </html>
