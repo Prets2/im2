@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RENTACAR : Manage Cars</title>
+    <link rel="icon" href="{% static 'RentACar/images/favicon.jpg' %}" type="image/jpg">
+    <link rel="stylesheet" type="text/css" href="{% static 'RentACar/css/car_list.css' %}">
+    <style>
+        * {
+            text-decoration: none;
+        }
+        
+        body {
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-color: #1C1C1C;
+        }
+        
+        .navbar {
+            background: rgb(42, 42, 42);
+            font-family: calibri;
+            padding: 0; /* Remove padding */
+            margin: 0; /* Remove margin */
+        }
+        
+        .navdiv {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px 15px; /* Adjust the padding to make it smaller */
+        }
+        
+        .brand a {
+            font-size: 15px; /* Reduce the font size for the brand */
+            font-weight: 600;
+            color: white;
+        }
+        
+        nav li {
+            list-style: none;
+            display: inline-block;
+        }
+        
+        nav li a {
+            color: white;
+            font-size: 16px; /* Reduce the font size for the links */
+            font-weight: bold;
+            margin-right: 20px; /* Adjust the margin as needed */
+        }
+        
+        nav button {
+            background-color: black;
+            margin-left: 10px;
+            border-radius: 10px;
+            padding: 8px; /* Adjust the padding for buttons */
+            width: 80px; /* Adjust the width for buttons */
+        }
+        
+        nav button a {
+            color: white;
+            font-weight: bold;
+            font-size: 14px; /* Reduce the font size for button text */
+        }
+        
+        .red-text {
+            color: red;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        /* Update font styles for the heading */
+    h1 {
+        font-size: 24px;
+        color: #ffffff; /* Darker color for better readability */
+    }
+
+    /* Style the table for better readability */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff; /* White background for the table */
+    }
+
+    th, td {
+        padding: 12px; /* Increased padding for better spacing */
+        text-align: left;
+    }
+
+    /* Style table header cells */
+    th {
+        background-color: #333; /* Dark background color for headers */
+        color: #fff; /* White text for headers */
+    }
+
+    /* Style table rows for alternating colors */
+    tr:nth-child(even) {
+        background-color: #f2f2f2; /* Light gray background for even rows */
+    }
+
+    /* Style table rows on hover for interactivity */
+    tr:hover {
+        background-color: #ddd; /* Slightly darker gray on hover */
+    }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const rentButtons = document.querySelectorAll('.rent-button');
+
+            rentButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const carID = this.dataset.carid;  
+                    window.location.href = `/cars/${carID}/`;  
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="navdiv">
+                <div class="brand"><a href="{% url 'home' %}"><h1><span class="white-text">RENTA</span><span class="red-text">CAR</span></h1></a></div>
+                <div class="centered-text" style="text-align: left;">
+                    {% if user.is_authenticated %}
+                    <h2>Welcome, {{ user.username }}</h2>
+                    {% endif %}
+                    </div>
+                <ul>
+                    <li><a href="{% url 'cars' %}">Cars</a></li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    {% if user_is_admin %}
+                    <li><a href="{% url 'car_management' %}">Edit cars</a></li>
+                    {% endif %}
+        
+                    {% if user.is_authenticated %}
+                    <button><a href="{% url 'logout' %}">Logout</a></button>
+                    {% else %}
+                    <button><a href="{% url 'login' %}">Login</a></button>
+                    {% endif %}
+                </ul>
+            </nav>
+                </ul>
+            </div>
+        </nav> 
+    </header>
+    <h1>Car Management Dashboard</h1>
+
+    {% if user_is_admin %}
+    <a href="{% url 'add_car' %}">Add New Car</a>
+    <table>
+        <tr>
+            <th>Car Name</th>
+            <th>Car Type</th>
+            <th>Car Description</th>
+            <th>Car Rate</th>
+            <th>Actions</th>
+        </tr>
+        {% for car in cars %}
+        <tr>
+            <td>{{ car.carName }}</td>
+            <td>{{ car.carType }}</td>
+            <td style="text-align: justify;">{{ car.carDescription }}</td>
+            <td>{{ car.carRate }}</td>
+            <td>
+                <a href="{% url 'update_car' car.CarID %}">Update</a>
+                <form action="{% url 'delete_car' car.CarID %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-button" onclick="return confirmDelete();">Delete</button>
+                </form>                
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>You don't have permission to manage cars.</p>
+    {% endif %}
+    <!-- Add any additional content or JavaScript at the end of the body -->
+</body>
+    <script>
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete?");
+        }
+    </script>
+</html>
