@@ -107,18 +107,11 @@ def car_management(request):
     # Fetch the list of cars from the database
     cars = Car.objects.all()
     context = {
-<<<<<<< HEAD
-        'user_is_admin': user_is_admin,
-        'cars': cars,  # Pass the list of cars to the template
-    }
-    return render(request, "RentACar/carman.html", context)
-=======
         "user_is_admin": user_is_admin,
         "cars": cars,  # Add the 'cars' context variable
     }
     return render(request, "RentACar/carman.html", context)
 
->>>>>>> 71ad70aa697a1721159f5d3bb78e9c6bf3b65dbe
 
 def cars(request):
     car = Car.objects.all()
@@ -250,8 +243,4 @@ def delete_car(request, car_id):
         car.delete()
         return redirect("car_management")
 
-<<<<<<< HEAD
     return render(request, "RentACar/delete_car.html", {"car": car})
-=======
-    return render(request, "delete_car.html", {"car": car})
->>>>>>> 71ad70aa697a1721159f5d3bb78e9c6bf3b65dbe
