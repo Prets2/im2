@@ -40,8 +40,8 @@ def create_order(request):
         # Generate a random order number
         order_number = ''.join(random.choices(string.digits, k=8))
 
-        # Calculate the total (replace this with your own logic)
-        total = car.carRate * float(duration)
+        # Calculate the total price for the whole duration
+        total_price = car.carRate * float(duration)
 
         # Create the Order object
         order = Order.objects.create(
@@ -51,14 +51,24 @@ def create_order(request):
             carName=car.carName,
             startDate=start_date,
             endDate=end_date,
-            total=total,
+            total=total_price,
             duration=duration,
         )
 
         car.status = 1
         car.save()
-        
-        return JsonResponse({'success': True, 'orderNumber': order.orderNumber})
+
+        response_data = {
+            'success': True,
+            'orderNumber': order.orderNumber,
+            'carName': car.carName,
+            'carRate': car.carRate,
+            'startDate': start_date,
+            'endDate': end_date,
+            'totalPrice': total_price,
+        }
+
+        return JsonResponse(response_data)
     else:
         return JsonResponse({'success': False, 'error': 'Invalid request method'})
 

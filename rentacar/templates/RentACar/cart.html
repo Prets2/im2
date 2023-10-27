@@ -248,7 +248,10 @@
     <div id="successModal" class="modal">
         <div class="modal-content">
             <h2>Success!</h2>
-            <p>You have successfully checked out. Here is your order number. Please present this to our store</p>
+            <p>You have successfully checked out. Here is your order summary:</p>
+            <p>Car Name: <span id="carName"></span></p>
+            <p>Price per Day: ₱<span id="carRate"></span></p>
+            <p>Total Price: ₱<span id="totalPrice"></span></p>
             <p>Order Number: <span id="orderNumber"></span></p>
             <button id="returnToCarList" class="checkout-button-modal">Return to Car Listing</button>
         </div>
@@ -329,33 +332,46 @@
             }
 
             function createOrder(carID, startDate, endDate, duration) {
-                const csrftoken = csrfToken;
-                const orderData = {
-                    carID: carID,
-                    startDate: startDate,
-                    endDate: endDate,
-                    duration: duration,
-                };
+    const csrftoken = csrfToken;
+    const orderData = {
+        carID: carID,
+        startDate: startDate,
+        endDate: endDate,
+        duration: duration,
+    };
 
-                fetch('/create_order/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': csrftoken,
-                    },
-                    body: JSON.stringify(orderData),
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        const successModal = document.getElementById('successModal');
-                        const orderNumberSpan = document.getElementById('orderNumber');
-                        orderNumberSpan.textContent = data.orderNumber;
-                        successModal.style.display = 'block';
-                    })
-                    .catch(error => console.error('Error:', error));
+    fetch('/create_order/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken,
+        },
+        body: JSON.stringify(orderData),
+    })
+    .then(response => response.json())
+    .then(data => {
+        const successModal = document.getElementById('successModal');
+        const carNameSpan = document.getElementById('carName');
+        const carRateSpan = document.getElementById('carRate');
+        const startDateSpan = document.getElementById('startDate');
+        const endDateSpan = document.getElementById('endDate');
+        const totalPriceSpan = document.getElementById('totalPrice');
+        const orderNumberSpan = document.getElementById('orderNumber');
 
-                modal.style.display = 'none';
-            }
+        // Populate the order summary information
+        carNameSpan.textContent = data.carName;
+        carRateSpan.textContent = data.carRate;
+        startDateSpan.textContent = data.startDate;
+        endDateSpan.textContent = data.endDate;
+        totalPriceSpan.textContent = data.totalPrice;
+        orderNumberSpan.textContent = data.orderNumber;
+
+        successModal.style.display = 'block';
+    })
+    .catch(error => console.error('Error:', error));
+
+    modal.style.display = 'none';
+}
         });
     </script>
 
