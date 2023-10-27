@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>RENTACAR : Cart</title>
     <link rel="icon" href="{% static 'RentACar/images/favicon.jpg' %}" type="image/jpg">
+    <script>
+    const csrfToken = "{{ csrf_token }}";
+     </script>
     <style>
         * {
             text-decoration: none;
@@ -14,22 +17,19 @@
 
         body {
             margin: 0;
-            /* Remove default margin */
             padding: 0;
-            /* Remove default padding */
             background-image: url('../images/landing.jpg');
             background-repeat: no-repeat;
             background-size: cover;
             background-color: #1C1C1C;
+            font-family: 'Montserrat', sans-serif;
         }
 
         .navbar {
             background: rgb(42, 42, 42);
             font-family: calibri;
             padding: 0;
-            /* Remove padding */
             margin: 0;
-            /* Remove margin */
         }
 
         .navdiv {
@@ -37,12 +37,10 @@
             align-items: center;
             justify-content: space-between;
             padding: 5px 15px;
-            /* Adjust the padding to make it smaller */
         }
 
         .brand a {
             font-size: 15px;
-            /* Reduce the font size for the brand */
             font-weight: 600;
             color: white;
         }
@@ -55,10 +53,8 @@
         nav li a {
             color: white;
             font-size: 16px;
-            /* Reduce the font size for the links */
             font-weight: bold;
             margin-right: 20px;
-            /* Adjust the margin as needed */
         }
 
         nav button {
@@ -66,16 +62,13 @@
             margin-left: 10px;
             border-radius: 10px;
             padding: 8px;
-            /* Adjust the padding for buttons */
             width: 80px;
-            /* Adjust the width for buttons */
         }
 
         nav button a {
             color: white;
             font-weight: bold;
             font-size: 14px;
-            /* Reduce the font size for button text */
         }
 
         .red-text {
@@ -83,53 +76,48 @@
             font-weight: bold;
         }
 
-        .section {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 10px;
+        .car-details {
+            color: #ffffff;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
             margin: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            border: 3px solid #ff0000;
+            background: rgba(255, 255, 255, 0.9);
+            background: linear-gradient(to bottom, #1D2671, #C33764);
+            animation: fadeInAnimation ease 1s forwards;
         }
 
-        .box {
-            position: relative;
-            height: 300px;
-            background-size: cover;
-            background-position: center;
-            border-radius: 20px;
+        .car-details h2 {
+            font-size: 24px;
+            color: #fffefe;
         }
 
-        .box1 {
-            background-image: url('/static/RentACar/images/viosnew.png');
-            /* Replace with your image path */
+        .car-details img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
         }
 
-        .box2 {
-            background-image: url('/static/RentACar/images/ertiganew.png');
-            /* Replace with your image path */
+        .date-picker label,
+        .checkout-form label {
+            color: white;
+            font-size: 30px;
+            margin-left: 30px;
         }
 
-        .header-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1;
-        }
-
-        .duration-form {
-            margin: 20px;
-        }
-
-        .duration-input {
+        .date-picker input,
+        .checkout-input {
+            color: white;
             padding: 5px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
 
         .checkout-button {
-            background-color: green;
+            background-color: rgb(1, 170, 1);
             color: white;
             border: none;
             border-radius: 5px;
@@ -138,7 +126,6 @@
             cursor: pointer;
         }
 
-        /* Modal styles */
         .modal {
             display: none;
             position: fixed;
@@ -148,6 +135,7 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 1;
+            animation: fadeInAnimation ease 1s forwards;
         }
 
         .modal-content {
@@ -161,17 +149,7 @@
             transform: translate(-50%, -50%);
         }
 
-        .duration-form {
-            margin: 20px;
-        }
-
-        .duration-input {
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .checkout-button {
+        .checkout-button-modal {
             background-color: green;
             color: white;
             border: none;
@@ -179,12 +157,33 @@
             padding: 10px 20px;
             font-weight: bold;
             cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .checkout-button:hover {
+            background-color: #025002;
+        }
+
+        .checkout-input {
+            color: black;
+        }
+
+        .date-picker input[type="date"],
+        .checkout-form input[type="number"] {
+            color: black;
+        }
+
+        /* Add the fade-in animation */
+        @keyframes fadeInAnimation {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
         }
     </style>
 </head>
-<script>
-    var csrfToken = "{{ csrf_token }}";
-</script>
 
 <body>
     <header>
@@ -211,9 +210,7 @@
                     <button><a href="{% url 'login' %}">Login</a></button>
                     {% endif %}
                 </ul>
-        </nav>
-        </ul>
-        </div>
+            </div>
         </nav>
     </header>
     <div class="car-details">
@@ -232,19 +229,20 @@
         <label for="endDate">Select End Date:</label>
         <input type="date" id="endDate" required>
     </div>
-    <form class="duration-form">
+    <form class="checkout-form">
         <label for="duration">Duration (in days):</label>
-        <input type="number" id="duration" class="duration-input" readonly>
+        <input type="number" id="duration" class="checkout-input" readonly>
         <button class="checkout-button" id="checkout-button" data-csrf-token="{{ csrf_token }}">Checkout</button>
     </form>
     <div id="termsModal" class="modal">
         <div class="modal-content">
             <h2>Terms and Conditions</h2>
-            <p>Please read and accept the terms and conditions to continue:</p>
+            <p>Please read and accept the <a href="{% url 'terms_and_conditions' %}">terms and conditions</a> to
+                continue:</p>
             <label>
                 <input type="checkbox" id="agreeCheckbox" /> I agree to the terms and conditions
             </label>
-            <button class="checkout-button" id="agreeButton" disabled>Agree and Continue</button>
+            <button class="checkout-button-modal" id="agreeButton" disabled>Agree and Continue</button>
         </div>
     </div>
     <div id="successModal" class="modal">
@@ -252,11 +250,9 @@
             <h2>Success!</h2>
             <p>You have successfully checked out. Here is your order number. Please present this to our store</p>
             <p>Order Number: <span id="orderNumber"></span></p>
-            <button id="returnToCarList">Return to Car Listing</button>
+            <button id="returnToCarList" class="checkout-button-modal">Return to Car Listing</button>
         </div>
     </div>
-
-    <!-- Your existing HTML content here -->
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -272,6 +268,7 @@
             returnToCarListButton.addEventListener('click', function () {
                 window.location.href = '{% url "cars" %}';
             });
+
             function calculateDuration() {
                 const startDate = new Date(startDateInput.value);
                 const endDate = new Date(endDateInput.value);
@@ -295,56 +292,73 @@
                 const endDate = endDateInput.value;
                 const duration = durationInput.value;
 
-                // Show the terms and conditions modal
-                modal.style.display = 'block';
-
-                agreeCheckbox.addEventListener('change', function () {
-                    agreeButton.disabled = !agreeCheckbox.checked;
-                });
-
-                agreeButton.addEventListener('click', function () {
-                    if (agreeCheckbox.checked) {
-                        // Send a POST request to the server to create an Order
-                        const csrftoken = csrfToken; // Make sure you have this variable
-                        const orderData = {
-                            carID: carID,
-                            startDate: startDate,
-                            endDate: endDate,
-                            duration: duration,
-                        };
-
-                        fetch('/create_order/', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRFToken': csrftoken,
-                            },
-                            body: JSON.stringify(orderData),
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                // Handle the response from the server
-                                const successModal = document.getElementById('successModal');
-                                const orderNumberSpan = document.getElementById('orderNumber');
-
-
-                                // Update modal content with order details
-                                orderNumberSpan.textContent = data.orderNumber;
-
-
-                                // Show the success modal
-                                successModal.style.display = 'block';
-                            })
-                            .catch(error => console.error('Error:', error));
-
-                        // Close the modal
-                        modal.style.display = 'none';
-                    }
-                });
-
+                checkAvailability(carID, startDate, endDate, duration);
             });
+
+            function checkAvailability(carID, startDate, endDate, duration) {
+                fetch('/check_availability/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken,
+                    },
+                    body: JSON.stringify({
+                        carID: carID,
+                        startDate: startDate,
+                        endDate: endDate,
+                    }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.available) {
+                            modal.style.display = 'block';
+                            agreeCheckbox.addEventListener('change', function () {
+                                agreeButton.disabled = !agreeCheckbox.checked;
+                            });
+
+                            agreeButton.addEventListener('click', function () {
+                                if (agreeCheckbox.checked) {
+                                    createOrder(carID, startDate, endDate, duration);
+                                }
+                            });
+                        } else {
+                            alert(data.message);
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+            function createOrder(carID, startDate, endDate, duration) {
+                const csrftoken = csrfToken;
+                const orderData = {
+                    carID: carID,
+                    startDate: startDate,
+                    endDate: endDate,
+                    duration: duration,
+                };
+
+                fetch('/create_order/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken,
+                    },
+                    body: JSON.stringify(orderData),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        const successModal = document.getElementById('successModal');
+                        const orderNumberSpan = document.getElementById('orderNumber');
+                        orderNumberSpan.textContent = data.orderNumber;
+                        successModal.style.display = 'block';
+                    })
+                    .catch(error => console.error('Error:', error));
+
+                modal.style.display = 'none';
+            }
         });
     </script>
+
 </body>
 
 </html>
