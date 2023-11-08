@@ -259,14 +259,11 @@ def update_car(request, car_id):
         form = CarForm(request.POST, request.FILES, instance=car)
         if form.is_valid():
             car = form.save()  # Save the updated data to the database
-
             # Update availability (status) based on the form's status field
             if 'status' in form.cleaned_data:
                 car.status = 0 if form.cleaned_data['status'] == 0 else 1
                 car.save()
-
             return redirect('car_management')  # Redirect to the car management page
-
     else:
         form = CarForm(instance=car)
 
@@ -292,4 +289,23 @@ def reserve_car(request, car_id):
     # You can use the car_id to identify the car being reserved
     # After handling the reservation, you can redirect to the car_detail page
     return redirect('car_detail', car_id=car_id)
+
+def order_list(request):
+    user = request.user
+
+    if user.is_authenticated:
+        if user.is_staff:
+            orders = Order.objects.all()
+        else:
+            orders = Order.objects.filter(userid=user)
+    else:
+        orders = []
+
+    context = {
+        'user_is_admin': user.is_staff,
+        'orders': orders,
+    }
+
+    return render(request, 'RentACar/order_list.html', context)
+
 
