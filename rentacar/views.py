@@ -40,8 +40,8 @@ def create_order(request):
         # Generate a random order number
         order_number = ''.join(random.choices(string.digits, k=8))
 
-        # Calculate the total (replace this with your own logic)
-        total = car.carRate * float(duration)
+        # Calculate the total price for the whole duration
+        total_price = car.carRate * float(duration)
 
         # Create the Order object
         order = Order.objects.create(
@@ -51,14 +51,24 @@ def create_order(request):
             carName=car.carName,
             startDate=start_date,
             endDate=end_date,
-            total=total,
+            total=total_price,
             duration=duration,
         )
 
         car.status = 1
         car.save()
-        
-        return JsonResponse({'success': True, 'orderNumber': order.orderNumber})
+
+        response_data = {
+            'success': True,
+            'orderNumber': order.orderNumber,
+            'carName': car.carName,
+            'carRate': car.carRate,
+            'startDate': start_date,
+            'endDate': end_date,
+            'totalPrice': total_price,
+        }
+
+        return JsonResponse(response_data)
     else:
         return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
@@ -107,10 +117,18 @@ def car_management(request):
     # Fetch the list of cars from the database
     cars = Car.objects.all()
     context = {
+<<<<<<< HEAD
+        "user_is_admin": user_is_admin,
+        "cars": cars,  # Add the 'cars' context variable
+    }
+    return render(request, "RentACar/carman.html", context)
+
+=======
         'user_is_admin': user_is_admin,
         'cars': cars,  # Pass the list of cars to the template
     }
     return render(request, "RentACar/carman.html", context)
+>>>>>>> 51700722886b781246628654dc78c88099d4240e
 
 def cars(request):
     car = Car.objects.all()
@@ -272,6 +290,9 @@ def delete_car(request, car_id):
         car.delete()
         return redirect("car_management")
 
+<<<<<<< HEAD
+    return render(request, "RentACar/delete_car.html", {"car": car})
+=======
     return render(request, "delete_car.html", {"car": car})
 
 from django.http import JsonResponse
@@ -282,3 +303,4 @@ def reserve_car(request, car_id):
     # After handling the reservation, you can redirect to the car_detail page
     return redirect('car_detail', car_id=car_id)
 
+>>>>>>> 51700722886b781246628654dc78c88099d4240e
