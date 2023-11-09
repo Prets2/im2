@@ -16,8 +16,9 @@ class CarAdmin(admin.ModelAdmin):
 admin.site.register(Car, CarAdmin)
 
 class OrdersAdmin(admin.ModelAdmin):
-    list_display = ('orderNumber', 'userid', 'carid', 'carName', 'startDate', 'endDate', 'total', 'duration')
+    list_display = ('orderNumber', 'userid', 'carid', 'carName', 'startDate', 'endDate', 'total', 'duration', 'status')
     search_fields = ('orderNumber', 'carName')
-    list_filter = ('startDate',)
+    list_filter = ('startDate', 'status')  # Add 'status' to the list_filter
+    ordering = ('-startDate',)  # Optional: Order by start date descending
 
 admin.site.register(Order, OrdersAdmin)
