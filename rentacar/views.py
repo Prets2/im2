@@ -117,18 +117,11 @@ def car_management(request):
     # Fetch the list of cars from the database
     cars = Car.objects.all()
     context = {
-<<<<<<< HEAD
-        'user_is_admin': user_is_admin,
-        'cars': cars,  # Pass the list of cars to the template
-    }
-    return render(request, "RentACar/carman.html", context)
-=======
         "user_is_admin": user_is_admin,
         "cars": cars,  # Add the 'cars' context variable
     }
     return render(request, "RentACar/carman.html", context)
 
->>>>>>> 4d7bf067f6e7f11da57099e420f3bfd48550d227
 
 def cars(request):
     car = Car.objects.all()
@@ -297,8 +290,6 @@ def reserve_car(request, car_id):
     # After handling the reservation, you can redirect to the car_detail page
     return redirect('car_detail', car_id=car_id)
 
-<<<<<<< HEAD
-=======
 def order_list(request):
     user = request.user
 
@@ -318,4 +309,3 @@ def order_list(request):
     return render(request, 'RentACar/order_list.html', context)
 
 
->>>>>>> 4d7bf067f6e7f11da57099e420f3bfd48550d227
