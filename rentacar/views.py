@@ -285,9 +285,6 @@ def delete_car(request, car_id):
 from django.http import JsonResponse
 
 def reserve_car(request, car_id):
-    # Add your logic for reserving the car here
-    # You can use the car_id to identify the car being reserved
-    # After handling the reservation, you can redirect to the car_detail page
     return redirect('car_detail', car_id=car_id)
 
 def order_list(request):
@@ -308,4 +305,38 @@ def order_list(request):
 
     return render(request, 'RentACar/order_list.html', context)
 
+def order_tracker(request):
+    return render(request, 'RentACar/order_tracker.html')
 
+def update_order(request):
+    if request.method == 'POST' and request.user.is_staff:
+        order_number = request.POST.get('orderNumber')
+        status = int(request.POST.get('status'))
+        start_date = request.POST.get('startDate')
+        end_date = request.POST.get('endDate')
+        duration = float(request.POST.get('duration'))
+        total_price = float(request.POST.get('totalPrice'))
+
+        order = get_object_or_404(Order, orderNumber=order_number)
+        order.status = status
+        order.startDate = start_date
+        order.endDate = end_date
+        order.duration = duration
+        order.total = total_price
+        order.save()
+
+        return redirect('order_tracker')
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid request method or user is not an admin'})
+
+def check_order_status(request):
+    if request.method == 'POST' and request.user.is_authenticated:
+        order_number = request.POST.get('orderNumber')
+
+        try:
+            order = Order.objects.get(orderNumber=order_number, userid=request.user)
+            return JsonResponse({'success': True, 'status': order.get_status_display()})
+        except Order.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Order not found for the user'})
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid request method or user is not authenticated'})

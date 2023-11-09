@@ -22,11 +22,13 @@ class Order(models.Model):
     PENDING = 0
     CONFIRMED = 1
     CANCELED = 2
+    RESERVED = 3
 
     STATUS_CHOICES = [
         (PENDING, 'Pending'),
         (CONFIRMED, 'Confirmed'),
         (CANCELED, 'Canceled'),
+        (RESERVED, 'Reserved')
     ]
 
     orderNumber = models.CharField(max_length=8, primary_key=True, unique=True)

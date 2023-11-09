@@ -145,6 +145,7 @@
                     <li><a href="{% url 'car_management' %}">Edit cars</a></li>
                     {% endif %}
                     {% if user.is_authenticated %}
+                    <li><a href="{% url 'order_list' %}">Order History</a></li>
                     <button><a href="{% url 'logout' %}">Logout</a></button>
                     {% else %}
                     <button><a href="{% url 'login' %}">Login</a></button>
