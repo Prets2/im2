@@ -162,7 +162,7 @@ def check_availability(request):
         if overlapping_reservations.exists():
             is_available = False
             conflicting_reservation = overlapping_reservations.first()
-            message = f"Car is not available during the selected dates. It's reserved from {conflicting_reservation.startDate} to {conflicting_reservation.endDate}."
+            message = f"Car is not available during the selected dates. It's rented from {conflicting_reservation.startDate} to {conflicting_reservation.endDate}."
         else:
             is_available = True
             message = "Car is available during the selected dates."
