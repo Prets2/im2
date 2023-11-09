@@ -24,6 +24,7 @@ urlpatterns = [
     path('create_order/', views.create_order, name='create_order'),
     path('reserve/<int:car_id>/', views.reserve_car, name='reserve_car'),
     path('check_availability/', views.check_availability, name='check_availability'),
+    path('order_list/', views.order_list, name='order_list'),
 ]
 
 if settings.DEBUG:
