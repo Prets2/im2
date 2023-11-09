@@ -34,7 +34,7 @@ def create_order(request):
         end_date = data['endDate']
         duration = data['duration']
         status = data.get('status', 0)  # Default status is 0 if not provided
-        cstatus = 1
+        cstatus = 0
         # Retrieve the Car object
         car = Car.objects.get(pk=car_id)
 
