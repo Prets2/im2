@@ -33,6 +33,7 @@ def create_order(request):
         start_date = data['startDate']
         end_date = data['endDate']
         duration = data['duration']
+        status = data.get('status', 0)  # Default status is 0 if not provided
 
         # Retrieve the Car object
         car = Car.objects.get(pk=car_id)
@@ -53,9 +54,10 @@ def create_order(request):
             endDate=end_date,
             total=total_price,
             duration=duration,
+            status=status,  # Set the status
         )
 
-        car.status = 1
+        car.status = status
         car.save()
 
         response_data = {
@@ -66,6 +68,7 @@ def create_order(request):
             'startDate': start_date,
             'endDate': end_date,
             'totalPrice': total_price,
+            'status': status,  # Include the status in the response
         }
 
         return JsonResponse(response_data)
