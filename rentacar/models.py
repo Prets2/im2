@@ -19,6 +19,18 @@ class Car(models.Model):
         return self.carName
 
 class Order(models.Model):
+    PENDING = 0
+    CONFIRMED = 1
+    CANCELED = 2
+    RESERVED = 3
+
+    STATUS_CHOICES = [
+        (PENDING, 'Pending'),
+        (CONFIRMED, 'Confirmed'),
+        (CANCELED, 'Canceled'),
+        (RESERVED, 'Reserved')
+    ]
+
     orderNumber = models.CharField(max_length=8, primary_key=True, unique=True)
     userid = models.ForeignKey(User, on_delete=models.CASCADE)
     carid = models.ForeignKey(Car, on_delete=models.CASCADE)
@@ -26,8 +38,8 @@ class Order(models.Model):
     startDate = models.DateField(default=None)
     endDate = models.DateField(default=None)
     total = models.DecimalField(max_digits=10, decimal_places=2)
-    duration = models.FloatField()  # Corrected to use DurationField
+    duration = models.FloatField()
+    status = models.IntegerField(choices=STATUS_CHOICES, default=PENDING)  # New status field
 
     def __str__(self):
         return self.orderNumber
-
