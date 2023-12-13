@@ -2,6 +2,7 @@ select.admin-autocomplete {
     width: 20em;
 }
 
+
 .select2-container--admin-autocomplete.select2-container {
     min-height: 30px;
 }
