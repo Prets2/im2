@@ -7,13 +7,12 @@ body {
     padding: 0; /* Remove default padding */
     background-image: url('../images/landing.jpg'); 
     background-repeat: no-repeat;       
-    background-size: unset;         /*cover*/
-}
+    background-size: cover;         
 
 .navbar {
     background: black;
     font-family: calibri;
-    padding: 1; /* Remove padding */                            /*0*/
+    padding: 0; /* Remove padding */                            
     margin: 0; /* Remove margin */
 }
 
@@ -25,26 +24,26 @@ body {
 }
 
 .brand a {
-    font-size: 20px; /* Reduce the font size for the brand */   /*30, 600, white*/
-    font-weight: 500;
+    font-size: 30px; /* Reduce the font size for the brand */ 
+    font-weight: 600;
     color: rgb(255, 255, 255);
 }
 
 nav li {
-    list-style: linear-gradient();                   /*none*/
+    list-style: none;           
     display: inline-block;
 }
 
 nav li a {
     color: white;
-    font-size: 20px; /* Reduce the font size for the links */       /*16px*/
-    font-weight: light;                                              /*bold*/
+    font-size: 16px; /* Reduce the font size for the links */      
+    font-weight: bold;                                              
     margin-right: 20px; /* Adjust the margin as needed */
 }
 
 nav button {
     background-color: black;                                    
-    margin-left: 20px;                                                  /*10px*/
+    margin-left: 10px;                                                 
     border-radius: 10px;
     padding: 8px; /* Adjust the padding for buttons */
     width: 80px; /* Adjust the width for buttons */
