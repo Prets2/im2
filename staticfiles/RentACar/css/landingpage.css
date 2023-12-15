@@ -6,14 +6,14 @@ body {
     margin: 0; /* Remove default margin */
     padding: 0; /* Remove default padding */
     background-image: url('../images/landing.jpg'); 
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-repeat: no-repeat;       
+    background-size: unset;         /*cover*/
 }
 
 .navbar {
     background: black;
     font-family: calibri;
-    padding: 0; /* Remove padding */
+    padding: 1; /* Remove padding */                            /*0*/
     margin: 0; /* Remove margin */
 }
 
@@ -25,13 +25,13 @@ body {
 }
 
 .brand a {
-    font-size: 30px; /* Reduce the font size for the brand */
-    font-weight: 600;
-    color: white;
+    font-size: 20px; /* Reduce the font size for the brand */   /*30, 600, white*/
+    font-weight: 500;
+    color: rgb(255, 255, 255);
 }
 
 nav li {
-    list-style: none;
+    list-style: linear-gradient();                   /*none*/
     display: inline-block;
 }
 
